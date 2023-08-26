@@ -16,19 +16,42 @@ public class PlayerHandler : MonoBehaviour
     [HideInInspector]public GameObject body; //graphic holder.
     [HideInInspector] public Rigidbody2D rb;
     [HideInInspector] public Animator anim;
+    [HideInInspector] public BoxCollider2D boxCollider;
+    [HideInInspector] public CapsuleCollider2D capsuleCollider;
     [SerializeField] BoxCollider2D feetCollider;
+
+    [HideInInspector]public BlockClass block;
+
 
     [Separator("LAYERMASKS")]
     [SerializeField] LayerMask jumpableLayer;
 
+
+    public int coinTotal;
+    public void AddCoin()
+    {
+        
+        coinTotal += 1;
+
+    }
+
+    [ContextMenu("SDASD")]
+    public void STUFF()
+    {
+        Time.timeScale = 0.1f;
+    }
 
     private void Awake()
     {
         if (instance == null) instance = this;
         else Destroy(gameObject);
 
+        DontDestroyOnLoad(gameObject);
+
         SetUpPlayerScripts();
         SetUpComponents();
+
+        block = new BlockClass();
     }
 
     #region SETUP
@@ -46,6 +69,8 @@ public class PlayerHandler : MonoBehaviour
         body = transform.GetChild(0).gameObject;
         rb = GetComponent<Rigidbody2D>();
         anim = body.GetComponent<Animator>();
+        boxCollider = GetComponent<BoxCollider2D>();
+        capsuleCollider = GetComponent<CapsuleCollider2D>();
     }
     #endregion
 
@@ -58,6 +83,24 @@ public class PlayerHandler : MonoBehaviour
 
     #endregion
 
+    public void ResetPlayer()
+    {
+
+        resource.ResetResource();
+    }
+
+
+    public void FreezeRB(bool choice)
+    {
+        if (choice)
+        {
+            rb.bodyType = RigidbodyType2D.Static;
+        }
+        else
+        {
+            rb.bodyType = RigidbodyType2D.Dynamic;
+        }
+    }
 
     #region UTILS
     public bool IsGrounded()
@@ -75,4 +118,14 @@ public class PlayerHandler : MonoBehaviour
     }
 
     #endregion
+
+
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        IPickable pick = collision.gameObject.GetComponent<IPickable>();
+
+        if (pick == null) return;
+        pick.Pick();
+    }
 }

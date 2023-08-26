@@ -1,7 +1,6 @@
 using MyBox;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Search.Providers;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -9,23 +8,32 @@ public class PlayerController : MonoBehaviour
     PlayerHandler handler;
 
     //this takes any input the player wants to use.
-    [Separator("ESSENTIAL COMPONENTS")]
-    [SerializeField] InputButton jumpInputButton;
-    [SerializeField] InputButton leftInputButton;
-    [SerializeField] InputButton rightInputButton;
 
+    public InputButton jumpInputButton;
+    public InputButton leftInputButton;
+    public InputButton rightInputButton;
 
     private void Awake()
     {
         handler = GetComponent<PlayerHandler>();
 
+        
+    }
+
+    private void Start()
+    {
+        jumpInputButton = ButtonInputHandler.instance.jumpInputButton;
+        leftInputButton = ButtonInputHandler.instance.leftInputButton;
+        rightInputButton = ButtonInputHandler.instance.rightInputButton;
+
+
         jumpInputButton.EventPressed += PressJumpInput;
         jumpInputButton.EventReleased += ReleaseJumpInput;
-
     }
 
     private void Update()
     {
+
         InputMove();
         HoldJumpInput();
     }
@@ -36,7 +44,7 @@ public class PlayerController : MonoBehaviour
 
     void InputMove()
     {
-
+        if (handler.block.HasBlock(BlockClass.BlockType.Partial)) return;
         if (leftInputButton.value == 1)
         {
             handler.move.MoveHorizontal(-1);
@@ -60,17 +68,20 @@ public class PlayerController : MonoBehaviour
 
     void HoldJumpInput()
     {
+        if (handler.block.HasBlock(BlockClass.BlockType.Partial)) return;
         if (jumpInputButton.value == 1) handler.move.HoldJump();      
     }
 
     void PressJumpInput()
     {
         //pressed it.
+        if (handler.block.HasBlock(BlockClass.BlockType.Partial)) return;
         handler.move.PressJump();
     }
 
     void ReleaseJumpInput()
     {
+        if (handler.block.HasBlock(BlockClass.BlockType.Partial)) return;
         handler.move.ReleaseJump();
     }
 }

@@ -16,7 +16,7 @@ public class EnemyBat : EnemyBase
         return new Sequence2(new List<Node>
         {            
             new BehaviorDetect(this),            
-            new BehaviorReady(this, 0.5f),
+            new BehaviorReady(this, totalCooldown),
             new BehaviorBatAttack(this)
         });
     }

@@ -25,22 +25,39 @@ public class PauseUI : MonoBehaviour
         }
     }
 
+    public void Force(bool choice)
+    {
+        holder.SetActive(choice);
+        if (choice)
+        {
+            Time.timeScale = 0;
+        }
+        else
+        {
+            Time.timeScale = 1;
+        }
+    }
 
     public void Resume()
     {
+        Debug.Log("resume");
         Control();
     }
 
     public void RestartLevel()
     {
-
+        Debug.Log("reestart level");
+        Control();
+        GameHandler.instance.loader.ResetScene();
     }
 
 
 
     public void Quit()
     {
-
+        Debug.Log("quit");
+        Control();
+        GameHandler.instance.loader.ChangeScene(0);
     }
 
     public void Settings()

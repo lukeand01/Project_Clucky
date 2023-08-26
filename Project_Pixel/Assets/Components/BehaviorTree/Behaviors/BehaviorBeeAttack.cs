@@ -11,6 +11,7 @@ public class BehaviorBeeAttack : Node
     }
 
     //shoot at positions.
+    //stand still.
 
     public override NodeState Evaluate()
     {

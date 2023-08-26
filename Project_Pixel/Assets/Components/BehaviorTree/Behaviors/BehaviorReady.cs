@@ -20,7 +20,7 @@ public class BehaviorReady : Node
 
     public override NodeState Evaluate()
     {
-        Debug.Log("wait charge");
+        Debug.Log("ready");
         enemy.MoveHorizontal(0);
         if (total > current)
         {
@@ -31,7 +31,6 @@ public class BehaviorReady : Node
         }
         else
         {
-            Debug.Log("done");
             current = 0;
             return NodeState.Success;
 

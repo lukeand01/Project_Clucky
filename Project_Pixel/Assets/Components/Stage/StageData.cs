@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu]
+[CreateAssetMenu(menuName = "Stage / Stage")]
 public class StageData : ScriptableObject
 {
     public int stageID;
     public string stageName;
     public Sprite stageSprite;
-    public string stageDescription;
+    [TextArea]public string stageDescription;
+    
 }

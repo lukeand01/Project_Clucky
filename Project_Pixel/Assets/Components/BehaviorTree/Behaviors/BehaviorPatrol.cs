@@ -27,7 +27,7 @@ public class BehaviorPatrol : Node
         this.patrolDistance = patrolDistance;
         this.patrolWaitTime = patrolWaitTime;
 
-        total = 0.3f;
+        total = 0.8f;
     }
 
     public override NodeState Evaluate()

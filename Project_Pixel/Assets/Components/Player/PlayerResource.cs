@@ -4,47 +4,37 @@ using UnityEngine;
 
 public class PlayerResource : MonoBehaviour, IDamageable
 {
-    [SerializeField] float initialHealth;
-    [SerializeField] float maxHealth;
-    [SerializeField] float currentHealth;
 
-    bool isDead;
+    PlayerHandler handler;
+    bool IsImmune;
 
     private void Awake()
     {
-        maxHealth = initialHealth;
-        currentHealth = maxHealth;
+        handler = GetComponent<PlayerHandler>();
     }
 
+    public void ResetResource()
+    {
+        IsImmune = false;
+    }
+    public void ControlImmunity(bool choice) => IsImmune = choice;
 
     public void TakeDamage(float damage)
     {
-        if (isDead) return;
+        if (IsImmune) return;
+        GameHandler.instance.LoseGame();
 
-        currentHealth -= damage;
-
-        if(currentHealth <= 0)
-        {
-            Die();
-        }
-        else
-        {
-
-        }
+        IsImmune = true;
+        StartCoroutine(DieProcess());
+        
     }
 
-    IEnumerator DamageProcess()
+    IEnumerator DieProcess()
     {
         yield return null;
     }
 
 
 
-    void Die()
-    {
-        isDead = true;
-
-        //trigger death animation
-        //trigger death ui.
-    }
+    
 }

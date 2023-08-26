@@ -1,6 +1,7 @@
 using MyBox;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
@@ -94,6 +95,11 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] Transform bottomCollider;
     //its a moment. if the jump is bigger nough.
 
+    [Separator("DOUBLE JUMP")]
+    [SerializeField] int totalDoubleJump;
+    int currentDoubleJumps;
+
+
     bool mustJump;
 
     void HandleJump()
@@ -122,6 +128,7 @@ public class PlayerMove : MonoBehaviour
 
         if (isGrounded)
         {
+            currentDoubleJumps = 0;
             coyoteCurrent = 0;          
             cannotJump = false;
             speedModifierApex = 1;
@@ -170,10 +177,8 @@ public class PlayerMove : MonoBehaviour
         if (isGrounded) return;
 
         bool hitTop = Physics2D.CircleCast(headCollider.position, 0.5f * lastDir, Vector2.up, 5, 6);
-        Debug.Log("not grounded");
         if (hitTop) return;
 
-        Debug.Log("nothing top");
 
         bool hitBottom = Physics2D.CircleCast(bottomCollider.position, 0.5f * lastDir, Vector2.up, 5, 6);
 
@@ -189,14 +194,24 @@ public class PlayerMove : MonoBehaviour
 
     }
 
-   
-
-
-
     public void PressJump(bool cannotForceJump = false)
     {
         
+        if(!isGrounded && currentDoubleJumps < totalDoubleJump)
+        {
 
+            currentDoubleJumps++;
+            mustJump = false;
+            isReleased = false;
+            cannotJump = true;
+            handler.ControlGravity(baseGravity);
+            Jump(jumpForce);
+
+
+            cooldownBeforeHoldCurrent = 0;
+            jumpHeightCurrent = 0;
+            return;
+        }
 
         if (cannotJump)
         {
@@ -276,5 +291,8 @@ public class PlayerMove : MonoBehaviour
         handler.rb.velocity += force;
     }
     #endregion
+
+
+    //
 
 }

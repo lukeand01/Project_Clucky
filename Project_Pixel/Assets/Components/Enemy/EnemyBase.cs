@@ -65,6 +65,11 @@ public class EnemyBase : Tree, IDamageable
 
     }
 
+    public void MoveRb(Vector2 dir)
+    {
+        rb.velocity += dir * moveSpeed * Time.deltaTime;
+    }
+
     public void TakeDamage(float damage)
     {
         if (isDead) return;
@@ -127,7 +132,6 @@ public class EnemyBase : Tree, IDamageable
 
         if (resource == null) return;
 
-        Debug.Log("touched the player");
         resource.TakeDamage(damage);
 
     }

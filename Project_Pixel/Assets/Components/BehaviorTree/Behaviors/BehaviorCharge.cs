@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using UnityEditor.U2D.Sprites;
 using UnityEngine;
 
 public class BehaviorCharge : Node

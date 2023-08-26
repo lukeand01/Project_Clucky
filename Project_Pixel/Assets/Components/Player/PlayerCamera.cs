@@ -29,16 +29,40 @@ public class PlayerCamera : MonoBehaviour
         dampTime = 0.2f;
     }
 
+    float current = 0;
+    float total = 1.2f;
 
     private void FixedUpdate()
     {
         if (cam == null)
         {
-            Debug.Log("no cam");
+
+           
+            if(Camera.main != null)
+            {
+                cam = Camera.main;
+            }
+            else
+            {
+                cam = Camera.current;
+            }
+
             return;
         }
-        Vector3 camPos = new Vector3(transform.position.x + x, transform.position.y + 1.5f + y, -20);
-        cam.transform.position = Vector3.SmoothDamp(cam.transform.position, camPos, ref velocity, dampTime);
+        
+
+
+        if (!handler.IsGrounded() && total > current)
+        {
+            //the camera does not follow.
+            current += Time.deltaTime;
+        }
+        else
+        {
+            Vector3 camPos = new Vector3(transform.position.x + x, transform.position.y + 1.5f + y, -20);
+            cam.transform.position = Vector3.SmoothDamp(cam.transform.position, camPos, ref velocity, dampTime);
+            current = 0;
+        }
     }
 
 

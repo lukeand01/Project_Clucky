@@ -10,22 +10,41 @@ public class StageUnit : ButtonBase
 {
     [Separator("STAGE")]
     [SerializeField] Image icon;
-    [SerializeField] TextMeshProUGUI text;
+    [SerializeField] TextMeshProUGUI nameText;
+    [SerializeField] TextMeshProUGUI coinText;
+    [SerializeField] GameObject blocked;
+    [SerializeField] GameObject selected;
 
     StageUI handler;
     StageData data;
     
-    public void SetUp(StageData data, StageUI handler)
+    public void SetUp(StageData data, StageUI handler, int currentStage)
     {
         this.data = data;
         this.handler = handler;
+
+        nameText.text = data.stageName;
+
+        blocked.SetActive(currentStage < data.stageID);    
+    }
+
+
+    //what defines if a levl is blocked or not its
+    
+    public void Select(bool choice)
+    {
+        selected.SetActive(choice);
     }
 
 
     public override void OnPointerClick(PointerEventData eventData)
     {
-       //ordeer the thing
-        
+        //ordeer the thing
+        if (blocked.activeInHierarchy) return;
+
+      
+        handler.SelectStage(data);
+        handler.SelectStageUnit(this);
     }
 
 }

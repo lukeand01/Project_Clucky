@@ -22,7 +22,10 @@ public class BehaviorDetect : Node
 
     public override NodeState Evaluate()
     {
-        if (IsDetectRange()) return NodeState.Success;
+        if (IsDetectRange())
+        {
+            return NodeState.Success;
+        }
         else return NodeState.Failure;       
     }
 

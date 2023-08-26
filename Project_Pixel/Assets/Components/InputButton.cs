@@ -21,10 +21,7 @@ public class InputButton : ButtonBase
     #endregion
 
 
-    private void Update()
-    {
-        
-    }
+   
 
     private void OnDisable()
     {
@@ -40,6 +37,7 @@ public class InputButton : ButtonBase
         value = 1;
         unityEvent.Invoke();
         OnPressed();
+
     }
 
     public override void OnPointerUp(PointerEventData eventData)
@@ -48,7 +46,7 @@ public class InputButton : ButtonBase
         if (value == 1) OnReleased();
         value = 0;
 
-       
+
     }
     public override void OnPointerExit(PointerEventData eventData)
     {
