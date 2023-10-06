@@ -1,10 +1,12 @@
+using MyBox;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyBat : EnemyBase
 {
-
+    [Separator("BAT")]
+    [SerializeField] float totalDrop;
     protected override void SetUpBehavior()
     {
         base.SetUpBehavior();
@@ -17,7 +19,7 @@ public class EnemyBat : EnemyBase
         {            
             new BehaviorDetect(this),            
             new BehaviorReady(this, totalCooldown),
-            new BehaviorBatAttack(this)
+            new BehaviorBatAttack(this, totalDrop)
         });
     }
 

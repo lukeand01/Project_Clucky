@@ -18,7 +18,7 @@ public class VictoryUI : MonoBehaviour
     {
         holder.SetActive(true);
 
-        int obtained = LocalHandler.instance.localGoldObtained;
+        int obtained = LocalHandler.instance.localGoldStored;
         int total = LocalHandler.instance.localGoldTotal;
 
         coinText.text = "Coin: " + obtained + " / " + total;

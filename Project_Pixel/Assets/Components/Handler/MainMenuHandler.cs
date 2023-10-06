@@ -1,11 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class MainMenuHandler : MonoBehaviour
 {
     [SerializeField] GameObject mainScreen;
     [SerializeField] List<GameObject> screenList = new();
+    [SerializeField] TextMeshProUGUI goldText;
+
+    private void Start()
+    {
+        GameHandler.instance.observer.EventMMUpdateGold += UpdatePlayerGold;
+    }
+
+    void UpdatePlayerGold(int gold)
+    {
+        //TERRIBLE SOLUTION BUT IT IS WHAT IT IS.
+        goldText.text = "Gold: " + gold.ToString();
+    }
 
     public void Play()
     {
@@ -37,4 +50,8 @@ public class MainMenuHandler : MonoBehaviour
     }
 
 
-        }
+    public void DEBUG_DELETESAVE()
+    {
+        GameHandler.instance.DeleteSave();
+    }
+}

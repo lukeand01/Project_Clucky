@@ -1,16 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class SceneLoader : MonoBehaviour
 {
+    GameHandler handler;
     [SerializeField] Image blackScreen;
     public int currentScene = 0;
-    public void ChangeScene(int scene)
+
+    private void Awake()
+    {
+        handler = GetComponent<GameHandler>();
+    }
+
+    public void ChangeScene(int scene, StageData stage = null)
     {
         StopAllCoroutines();
+        handler.stageHandler.SetCurrentStage(stage);
         StartCoroutine(ChangeSceneProcess(scene, false));
         StartCoroutine(LoadingProcess());
     }
@@ -45,14 +54,14 @@ public class SceneLoader : MonoBehaviour
 
         if (!isReset)
         {
-            AsyncOperation loadAsync = SceneManager.LoadSceneAsync(scene, LoadSceneMode.Additive);
+            UnityEngine.AsyncOperation loadAsync = SceneManager.LoadSceneAsync(scene, LoadSceneMode.Additive);
 
             while (!loadAsync.isDone)
             {
                 yield return new WaitForSeconds(0.01f);
             }
 
-            AsyncOperation unloadAsync = SceneManager.UnloadSceneAsync(currentScene, UnloadSceneOptions.None);
+            UnityEngine.AsyncOperation unloadAsync = SceneManager.UnloadSceneAsync(currentScene, UnloadSceneOptions.None);
 
             while (!unloadAsync.isDone)
             {
@@ -66,12 +75,11 @@ public class SceneLoader : MonoBehaviour
 
            
 
-        yield return new WaitForSeconds(0.05f);
+       yield return new WaitForSeconds(0.05f);
         
 
-        if(scene != 0)
+       if(scene != 0)
         {
-            Debug.Log("should deal with local");
             while(LocalHandler.instance == null)
             {
                 yield return new WaitForSeconds(0.01f);
@@ -79,14 +87,15 @@ public class SceneLoader : MonoBehaviour
             LocalHandler.instance.InitScene();
         }
 
-
        
-        if(PlayerHandler.instance != null)
+       if(PlayerHandler.instance != null)
         {
-            Debug.Log("load player");
             PlayerHandler.instance.ResetPlayer();
             PlayerHandler.instance.FreezeRB(false);
+            PlayerHandler.instance.UpdateMMUI();
         }
+
+
 
        if(ButtonInputHandler.instance != null)
         {           
@@ -119,8 +128,15 @@ public class SceneLoader : MonoBehaviour
     public void LoadNextStage()
     {
         //need to check the limit.
+              
+        int nextScene = handler.stageHandler.GetCurretScene();
         
-        int nextScene = currentScene + 1;
+        if(nextScene == -1)
+        {
+            Debug.LogError("something wrong");
+            return;
+        }
+
 
        StartCoroutine(ChangeSceneProcess(nextScene, false));
     }

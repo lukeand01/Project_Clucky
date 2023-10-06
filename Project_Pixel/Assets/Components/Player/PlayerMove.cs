@@ -15,7 +15,7 @@ public class PlayerMove : MonoBehaviour
     {
         handler = GetComponent<PlayerHandler>();
 
-
+        totalCannotControl = 0.2f;
     }
 
     private void Update()
@@ -99,14 +99,41 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] int totalDoubleJump;
     int currentDoubleJumps;
 
+    bool cannotControl;
+
+    float currentCannotControl;
+    float totalCannotControl = 0.15f;
 
     bool mustJump;
 
     void HandleJump()
     {
+
+        if(cannotControl && currentCannotControl > 0)
+        {
+            currentCannotControl -= Time.deltaTime;
+            Debug.Log("stuck here");
+            return;
+        }
+                   
+
+        if (cannotControl)
+        {
+            if (isGrounded)
+            {
+                cannotControl = false;
+
+            }
+            else
+            {
+                return;
+            }
+            
+        }
+
         if (isApex)
         {
-            handler.ControlGravity(apexGravity);
+            handler.ControlGravity(apexGravity, "Apex");
 
             if(apexTotal > apexCurrent)
             {
@@ -123,7 +150,7 @@ public class PlayerMove : MonoBehaviour
 
         if (!isGrounded && isReleased && !isApex)
         {
-            handler.ControlGravity(fallingGravity);
+            handler.ControlGravity(fallingGravity, "falling");
         }
 
         if (isGrounded)
@@ -133,7 +160,7 @@ public class PlayerMove : MonoBehaviour
             cannotJump = false;
             speedModifierApex = 1;
 
-            handler.ControlGravity(baseGravity);
+            handler.ControlGravity(baseGravity, "base grounded");
 
             if (mustJump)
             {
@@ -196,15 +223,15 @@ public class PlayerMove : MonoBehaviour
 
     public void PressJump(bool cannotForceJump = false)
     {
-        
-        if(!isGrounded && currentDoubleJumps < totalDoubleJump)
+        //do nothing if holding down.
+        if (cannotControl) return;
+        if (!isGrounded && currentDoubleJumps < totalDoubleJump)
         {
-
             currentDoubleJumps++;
             mustJump = false;
             isReleased = false;
             cannotJump = true;
-            handler.ControlGravity(baseGravity);
+            handler.ControlGravity(baseGravity, "preess");
             Jump(jumpForce);
 
 
@@ -212,6 +239,7 @@ public class PlayerMove : MonoBehaviour
             jumpHeightCurrent = 0;
             return;
         }
+
 
         if (cannotJump)
         {
@@ -228,7 +256,7 @@ public class PlayerMove : MonoBehaviour
         mustJump = false;
         isReleased = false;
         cannotJump = true;
-        handler.ControlGravity(baseGravity);
+        handler.ControlGravity(baseGravity, "base");
         Jump(jumpForce);
 
 
@@ -238,20 +266,20 @@ public class PlayerMove : MonoBehaviour
     public void HoldJump()
     {
         if (isReleased) return;
+        if (cannotControl) return;
 
-        if(cooldownBeforeHoldCurrent < cooldownBeforeHoldTotal)
+        if (cooldownBeforeHoldCurrent < cooldownBeforeHoldTotal)
         {
             cooldownBeforeHoldCurrent += Time.deltaTime;
             return;
         }
 
-       
 
 
         if(jumpHeightCurrent < jumpHeightTotal)
         {
             jumpHeightCurrent += Time.deltaTime;
-            handler.ControlGravity(holdGravity);
+            handler.ControlGravity(holdGravity, "hold");
             Jump(jumpForce);
         }
         else
@@ -265,19 +293,23 @@ public class PlayerMove : MonoBehaviour
 
     public void ReleaseJump()
     {
-        
         isReleased = true;
-        handler.ControlGravity(fallingGravity);
+        handler.ControlGravity(fallingGravity, "Falling release");
     }
 
     public void JumperJump(float modifier)
     {
+        PlayerHandler.instance.cam.ForceFollow();
+
         Jump(jumpForce * modifier);
 
+        cannotControl = true;
+        currentCannotControl = totalCannotControl;
+
         mustJump = false;
-        isReleased = false;
+        isReleased = true;
         cannotJump = true;
-        handler.ControlGravity(baseGravity);
+        handler.ControlGravity(baseGravity * 1.3f, "jumper jump");
 
         cooldownBeforeHoldCurrent = 0;
         jumpHeightCurrent = 0;

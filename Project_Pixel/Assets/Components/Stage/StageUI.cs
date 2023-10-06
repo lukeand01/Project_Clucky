@@ -38,7 +38,7 @@ public class StageUI : MonoBehaviour
 
     private void Start()
     {
-        List<WorldStageData> worldList = GameHandler.instance.stage.worldList;
+        List<WorldStageData> worldList = GameHandler.instance.stageHandler.worldList;
         CreateContainers(worldList);
         UpdateWorldUI();
     }
@@ -46,7 +46,7 @@ public class StageUI : MonoBehaviour
     public void CreateContainers(List<WorldStageData> worldList)
     {
 
-        int currentStage = GameHandler.instance.stage.stageCurrentProgress;
+        int currentStage = GameHandler.instance.stageHandler.stageCurrentProgress;
 
         foreach (WorldStageData world in worldList)
         {
@@ -138,8 +138,13 @@ public class StageUI : MonoBehaviour
         descriptionHolder.SetActive(true);
         descriptionNameText.text = stageData.stageName;
         descriptionInfoText.text = stageData.stageDescription;
+        descriptionCoinText.text = "Coin: " + stageData.coinObtainedList.Count.ToString() + " / " + stageData.howManyCoinInScene.ToString();
 
-        if(stageData.stageSprite != null)
+
+
+        //descriptionCoinText.tag = stageData.coinObtainedList.Count.ToString() + " / " + stageData.howManyCoinInScene.ToString();
+
+        if (stageData.stageSprite != null)
         {
             descriptionPortrait.gameObject.SetActive(false);
             descriptionPortrait.sprite = stageData.stageSprite;
@@ -174,7 +179,7 @@ public class StageUI : MonoBehaviour
 
         if (GameHandler.instance == null) return;
 
-        GameHandler.instance.loader.ChangeScene(stageData.stageID);
+        GameHandler.instance.loader.ChangeScene(stageData.stageID, stageData);
     }
 
     void SetButtons()

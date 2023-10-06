@@ -20,7 +20,6 @@ public class BehaviorReady : Node
 
     public override NodeState Evaluate()
     {
-        Debug.Log("ready");
         enemy.MoveHorizontal(0);
         if (total > current)
         {

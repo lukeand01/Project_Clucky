@@ -10,8 +10,15 @@ public class LocalHandler : MonoBehaviour
 
     public static LocalHandler instance;
 
-    public int localGoldObtained;
+    public int localGoldStored;
+    public int localGoldGained;
     public int localGoldTotal;
+
+    public StageData stageData;
+
+    [SerializeField]List<int> momentarilyCoinAddList = new();
+
+    SurvivalHandler survival;
 
 
     private void Awake()
@@ -27,18 +34,89 @@ public class LocalHandler : MonoBehaviour
     private void Start()
     {
         //count the coin.
+        //why?
+        //
+
+
+        //steps
+        //when the game first loads we check
+
+
+
+        survival = GetComponent<SurvivalHandler>();
+        if (survival != null) survival.StartSurvival();
+
+        RemoveCoinsBasedInSave();
+        
+    }
+
+    void RemoveCoinsBasedInSave()
+    {
+        GameObject[] coinInScene = GameObject.FindGameObjectsWithTag("Coin");
+
+        for (int i = 0; i < coinInScene.Length; i++)
+        {
+            coinInScene[i].GetComponent<Coin>().SetIndex(i);
+        }
+
+        foreach (var item in stageData.coinObtainedList)
+        {
+            if (item >= stageData.howManyCoinInScene)
+            {
+                Debug.LogError("something wrong");
+            }
+            else
+            {
+                coinInScene[item].SetActive(false);
+            }
+
+
+        }
+    }
+
+    void COIN1()
+    {
         GameObject[] coinInScene = GameObject.FindGameObjectsWithTag("Coin");
 
 
-        foreach (var item in coinInScene)
+        for (int i = 0; i < coinInScene.Length; i++)
         {
-            localGoldTotal++;
+            coinInScene[i].GetComponent<Coin>().SetIndex(i);
         }
 
+        localGoldTotal = coinInScene.Length;
+
+
+        if (stageData == null)
+        {
+            Debug.Log("stage dadta is null");
+        }
+        if (stageData.coinObtainedList == null)
+        {
+            Debug.Log("th coin list is null");
+        }
+        localGoldStored = stageData.coinObtainedList.Count;
+
+        foreach (var item in stageData.coinObtainedList)
+        {
+            if (item >= stageData.howManyCoinInScene)
+            {
+                Debug.LogError("something wrong");
+            }
+            else
+            {
+                coinInScene[item].SetActive(false);
+            }
+
+
+        }
     }
 
 
     [SerializeField] Transform initialPos;
+
+
+    
 
     public void InitScene()
     {
@@ -46,8 +124,13 @@ public class LocalHandler : MonoBehaviour
 
         pos.position = initialPos.position;
 
-        localGoldObtained = 0;
-        UIHolder.instance.player.UpdateCoin(localGoldObtained);
+        momentarilyCoinAddList.Clear();
+        
+
+        localGoldStored = stageData.coinObtainedList.Count;
+        localGoldGained = 0;
+
+        UIHolder.instance.player.UpdateCoin(localGoldStored, localGoldGained, stageData.howManyCoinInScene);
 
 
         UIHolder.instance.death.StopDeathUI();
@@ -61,13 +144,45 @@ public class LocalHandler : MonoBehaviour
         }
     }
 
-    public void AddLocalGold()
+    public void WinScene()
     {
-        localGoldObtained += 1;
-        localGoldObtained = Mathf.Clamp(localGoldObtained, 0, localGoldTotal);
+        //only call this when you win.
+        //should we save here?
+        //also we pass the new valuee of things to the player.
+        PlayerHandler.instance.AddCoin(localGoldGained);
 
-        UIHolder.instance.player.UpdateCoin(localGoldObtained);
+
+        foreach (var item in momentarilyCoinAddList)
+        {
+            stageData.coinObtainedList.Add(item);
+        }
+        
+        //must save this file. but how do i save it again?
+        
     }
+    public void LoseScene()
+    {
+        
+        //momentarilyCoinAddList.Clear();
+    }
+
+    void AddCoin(int index)
+    {
+        momentarilyCoinAddList.Add(index);
+        localGoldGained = momentarilyCoinAddList.Count;
+        
+    }
+
+    public void AddLocalGold(int index)
+    {
+        //there is the gold      
+        AddCoin(index);
+        UIHolder.instance.player.UpdateCoin(localGoldStored + localGoldGained, 1, stageData.howManyCoinInScene);
+    }
+
+
+    //
+
 
 
     [Separator("EGG")]

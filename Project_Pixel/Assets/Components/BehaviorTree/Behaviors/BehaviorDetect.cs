@@ -8,11 +8,22 @@ public class BehaviorDetect : Node
     //here we keep checking if there is someoenee being detected.
     //types of detection: can only detect above or below.
     EnemyBase enemy;
-    public BehaviorDetect(EnemyBase enemy)
+    bool careAboutDiff;
+
+    LayerMask checkLayerMask;
+    public BehaviorDetect(EnemyBase enemy, bool careAboutDiff = true)
     {
         this.enemy = enemy;
+        this.careAboutDiff = careAboutDiff;
+
+        //this adds to the layer mask the number of player and wall
+        checkLayerMask |= (1 << 6);
+        checkLayerMask |= (1 << 3);
+
+        
     }
 
+    
 
     //the bat and the bee wawnt to shoot down but to not care aabout things above.
     //cannot do anything when through wall.
@@ -22,16 +33,21 @@ public class BehaviorDetect : Node
 
     public override NodeState Evaluate()
     {
-        if (IsDetectRange())
+        
+        if (IsDetectRange(careAboutDiff))
         {
+
             return NodeState.Success;
         }
-        else return NodeState.Failure;       
+        else
+        {
+            return NodeState.Failure;
+        }    
     }
 
    
 
-    bool IsDetectRange()
+    bool IsDetectRange(bool caresAboutDif = true)
     {
         Transform playerPos = PlayerHandler.instance.transform;
         float distance = Vector3.Distance(enemy.transform.position, playerPos.position);
@@ -41,22 +57,33 @@ public class BehaviorDetect : Node
             return false;
         }
 
-        Vector3 diffY = enemy.transform.position - PlayerHandler.instance.transform.position;
+
+        if (caresAboutDif)
+        {
+            Vector3 diffY = enemy.transform.position - PlayerHandler.instance.transform.position;
+            if (diffY.y > 5)
+            {
+                return false;
+            }
+        }
+
+
+        RaycastHit2D check = Physics2D.Raycast(enemy.transform.position, (playerPos.position - enemy.transform.position).normalized, enemy.detectRange, checkLayerMask);
         
+        //the problem is itself.
 
-        if(diffY.y > 5)
+        if(check.collider != null)
         {
-            return false;
+            if (check.collider.gameObject.tag == "Player")
+            {
+                return true;
+            }         
         }
 
-        bool check = Physics2D.Raycast(enemy.transform.position, (playerPos.transform.position - enemy.transform.position), int.MaxValue, 6);
+        return false;
 
-        if (check)
-        {
-            return false;
-        }
-
-        return true;
+        
+        
 
     }
     

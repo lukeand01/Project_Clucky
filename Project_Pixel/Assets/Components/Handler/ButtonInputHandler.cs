@@ -13,7 +13,8 @@ public class ButtonInputHandler : MonoBehaviour
     public InputButton jumpInputButton;
     public InputButton leftInputButton;
     public InputButton rightInputButton;
-
+    public InputButton downInputButton;
+    public FixedJoystick joystick;
     private void Awake()
     {
         if (instance == null) instance = this;

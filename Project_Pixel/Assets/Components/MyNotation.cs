@@ -78,3 +78,98 @@
 //more enemies.
 //sfx
 //background music.
+
+
+
+//CURREENT TASK
+///fix coin
+///change assets
+///improve esign
+///fix pig
+///fix bat
+///
+
+//create new enemy: 
+//save system: stage progress,coins,
+///object movement behavior
+///jumper
+///gate
+//create 10 stages. (7/10)
+///create chameleon
+///spyke floor
+
+//FIXES
+///the pig is not working
+///
+
+
+//there is a so in each sceen that holds all the coins. 
+
+
+
+
+//THINGS TO FIX
+///scene 3 remmber to add the moving objects.
+///the bees.
+//pigs not working again.
+//too many coins? 6/5 coins in first and seecond stage.
+///get the spykes working.
+///reduce collider 
+//put scene '
+//walking hard to hold buttton
+//no col in 2 scnes
+
+
+
+//MY OBSERVATIONS TO FIX
+//Chamelleon
+///bee projectile rotates to where its going.
+//pigs showed some problems. will tak a look at them again.
+///moving plataforms are stuttering when the player is on.
+//i have seen enemies not REloading position after a scene is reloaded.
+//get stuck in walls.
+//somtimes coin give more. 
+
+
+//PROBLMS TO FIX
+///If the player dies any coins that were collected should be lost and have to collect them again - 
+//Sometimes the camera isn't following the player. Making it hard to see above or below if its safe to go there - TESTE
+///first scene you can go through ceilling - TESTE
+///Stage 2: i think you put 2 eggs at the end of the stage - TESTE
+///Stage 3: near the bat and the blades on the left. I am going through the ground even when i am not near the edge. Cant clear level 3 cuz of it. - TESTE
+///Stage 4: instant death. When I open the stage player character dies instantly - teste
+///Stage 5: Bee’s stinger is moving really slowly. Platformers aren’t working properly. - teste
+//Stage 7: its stage 3, and it has the same issues. - is he playing the level 7 instead of 3?
+///Stage 8: No issues, but the stage is really short
+//Stage 9: Maybe the bouncy pad is giving too much jump to the player character and making it seem like anti anti-gravity - TESTE
+///Stage 10: instant death. When I open the stage player character dies instantly - TESTE
+///Stage 11: The player is stuck in the ground and can't move. Spikes should be more into the ground so it's not visible. - teste
+///put background
+///add ground
+//change the input.
+
+
+//NEW PROBLEMS TO FIX
+///getting stuck in ledges.
+//controrls aree stiffer now
+///stage 4 is insta death
+///Stage 8: the jumping pad isn’t functioning well. And the character is getting stuck in it sometimes. (cant clear this stage because of it)
+//Stage 11: Spikes dont kill you. You can walk on them and sometimes get stuck too. And stage dont end if you collect the egg.
+//Stage 8-10 have issue of giving you blank screen before showing you stage.
+///And you named stage 10 as 9.
+///I don't see any other issue. But sometimes a coin would be counted as 2. Is that intentional or bug?
+///Chameleon tongue can hit you through platform. Is it intended?
+///But on the menu it says I have 60 gold even when i haven't played it.
+
+
+
+//creating a puzzle with gate.
+
+
+//NEW GOALS
+//tutorial things
+//10 stages (0/10)
+//music
+//change ui placeholders. add some effcts.
+//add a boss.
+//add vsx to player and enemies for moving and jumping.

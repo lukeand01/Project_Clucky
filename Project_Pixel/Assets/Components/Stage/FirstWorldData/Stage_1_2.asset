@@ -12,7 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e1e8c6f24b2ed5499bd1d5ec1b74084, type: 3}
   m_Name: Stage_1_2
   m_EditorClassIdentifier: 
+  worldIndex: 0
+  stageIndex: 1
   stageID: 2
   stageName: Second Stage test
   stageSprite: {fileID: 21300000, guid: a562c3f91c0ac684696e45dec19914e4, type: 3}
   stageDescription: this is the second stage.
+  howManyCoinInScene: 4
+  coinObtainedList: 

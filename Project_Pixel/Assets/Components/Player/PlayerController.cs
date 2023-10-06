@@ -1,6 +1,7 @@
 using MyBox;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -9,9 +10,17 @@ public class PlayerController : MonoBehaviour
 
     //this takes any input the player wants to use.
 
-    public InputButton jumpInputButton;
-    public InputButton leftInputButton;
-    public InputButton rightInputButton;
+    [HideInInspector] public InputButton jumpInputButton;
+    [HideInInspector] public InputButton leftInputButton;
+    [HideInInspector] public InputButton rightInputButton;
+    [HideInInspector] public InputButton downInputButton;
+
+    FixedJoystick joystick;
+
+
+    public bool isHoldingDown;
+    public bool isHoldingUp;
+    public bool isAllowedDown;
 
     private void Awake()
     {
@@ -25,16 +34,21 @@ public class PlayerController : MonoBehaviour
         jumpInputButton = ButtonInputHandler.instance.jumpInputButton;
         leftInputButton = ButtonInputHandler.instance.leftInputButton;
         rightInputButton = ButtonInputHandler.instance.rightInputButton;
+        downInputButton = ButtonInputHandler.instance.downInputButton;
+
+        joystick = ButtonInputHandler.instance.joystick;
 
 
         jumpInputButton.EventPressed += PressJumpInput;
         jumpInputButton.EventReleased += ReleaseJumpInput;
+
     }
 
     private void Update()
     {
 
-        InputMove();
+        //InputMove();
+        InputMove2();
         HoldJumpInput();
     }
 
@@ -66,6 +80,68 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    void InputMove2()
+    {
+        //it checks the input.
+        //if its only up then we look up.
+
+        if (joystick == null) return;
+     
+
+
+        InputLookUp(IsUp());
+        InputLookDown(IsDown());        
+        if (IsRight())
+        {          
+            handler.move.MoveHorizontal(1);
+            return;
+        }
+        if (IsLeft())
+        {
+            handler.move.MoveHorizontal(-1);
+            return;
+        }
+        handler.move.MoveHorizontal(0);
+    }
+
+    #region DASDAS
+    bool IsRight()
+    {
+        if (joystick.Direction.x > 0.15f && joystick.Direction.y < 0.6f || joystick.Direction.x > 0.15f && joystick.Direction.y > -0.6f) return true;
+        return false;
+    }
+
+    bool IsLeft()
+    {
+        if (joystick.Direction.x < -0.15f && joystick.Direction.y < 0.6f || joystick.Direction.x < -0.15f && joystick.Direction.y > -0.6f) return true;
+        return false;
+    }
+
+    bool IsUp()
+    {
+        if (joystick.Direction.y > 0.6f && joystick.Direction.x < 0.2f) return true;
+        return false;
+    }
+
+    bool IsDown()
+    {
+        if (joystick.Direction.y < -0.6f && joystick.Direction.x < 0.2f) return true;
+        return false;
+    }
+    #endregion
+
+
+    void InputLookDown(bool choice)
+    {
+        isHoldingDown = choice && handler.IsGrounded();       
+    }
+
+    void InputLookUp(bool choice)
+    {
+        //put the camera up.
+        isHoldingUp = choice && handler.IsGrounded();
+    }
+
     void HoldJumpInput()
     {
         if (handler.block.HasBlock(BlockClass.BlockType.Partial)) return;
@@ -76,7 +152,26 @@ public class PlayerController : MonoBehaviour
     {
         //pressed it.
         if (handler.block.HasBlock(BlockClass.BlockType.Partial)) return;
-        handler.move.PressJump();
+
+        if (isHoldingDown)
+        {
+            //wee make it so the player can go through 
+            StopAllCoroutines();
+            StartCoroutine(CanGoDownProcess());
+        }
+        else
+        {
+            handler.move.PressJump();
+        }
+
+        
+    }
+
+    IEnumerator CanGoDownProcess()
+    {
+        isAllowedDown = true;
+        yield return new WaitForSeconds(0.4f);
+        isAllowedDown = false;
     }
 
     void ReleaseJumpInput()
@@ -84,5 +179,9 @@ public class PlayerController : MonoBehaviour
         if (handler.block.HasBlock(BlockClass.BlockType.Partial)) return;
         handler.move.ReleaseJump();
     }
+
+
+
+
 }
 

@@ -39,6 +39,7 @@ public class BehaviorPatrol : Node
 
     void Patrol()
     {
+
         alreadyChangeSide = false;
         enemy.MoveHorizontal(currentDir);
         enemy.WalkAnimation();
@@ -48,17 +49,26 @@ public class BehaviorPatrol : Node
             current -= Time.deltaTime;
         }
 
-
-
-        if (enemy.IsWall(currentDir, 0.3f) || enemy.IsLedge(currentDir, 5))
+        if(enemy.IsWall(currentDir, 0.55f))
         {
+            //Debug.Log("wall ahead");
+        }
+        if (enemy.IsLedge(currentDir, 5))
+        {
+            //Debug.Log("ledge ahead");
+        }
+
+        if (enemy.IsWall(currentDir, 0.55f) || enemy.IsLedge(currentDir, 5) && current <= 0)
+        {
+
             alreadyChangeSide = true;
             currentDir *= -1;
-
+            current = total;
         }
 
         if (Vector3.Distance(enemy.transform.position, enemy.originalPos) > patrolDistance && patrolDistance > 0 && !alreadyChangeSide && current <= 0)
         {
+
             currentDir *= -1;
             current = total;
         }

@@ -1,4 +1,5 @@
 using MyBox;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,14 +27,30 @@ public class PlayerHandler : MonoBehaviour
     [Separator("LAYERMASKS")]
     [SerializeField] LayerMask jumpableLayer;
 
+    [HideInInspector]public bool isFallen;
 
-    public int coinTotal;
-    public void AddCoin()
+
+    public bool DEBUGisImmune;
+
+    public int PlayerGold;
+    
+    public void AddCoin(int coin)
     {
-        
-        coinTotal += 1;
-
+        PlayerGold += coin;
+        GameHandler.instance.observer.OnMMUpdateGold(PlayerGold);
     }
+
+    public void SetCoin(int coin)
+    {
+        PlayerGold = coin;
+        GameHandler.instance.observer.OnMMUpdateGold(PlayerGold);
+    }
+
+    public void UpdateMMUI()
+    {
+        GameHandler.instance.observer.OnMMUpdateGold(PlayerGold);
+    }
+
 
     [ContextMenu("SDASD")]
     public void STUFF()
@@ -52,6 +69,29 @@ public class PlayerHandler : MonoBehaviour
         SetUpComponents();
 
         block = new BlockClass();
+
+        totalPick = 0.05f;
+    }
+
+    public void ReceiveSaveData(SaveClass save)
+    {      
+        PlayerGold = save.playerGold;
+        StartCoroutine(UpdateMainMenuProcess());
+    }
+
+    IEnumerator UpdateMainMenuProcess()
+    {
+        yield return new WaitForSeconds(0.01f);
+        GameHandler.instance.observer.OnMMUpdateGold(PlayerGold);
+    }
+
+
+    private void Update()
+    {
+        if(currentPick > 0)
+        {
+            currentPick -= Time.deltaTime;
+        }
     }
 
     #region SETUP
@@ -76,7 +116,7 @@ public class PlayerHandler : MonoBehaviour
 
     #region BODY CONTROL
 
-    public void ControlGravity(float gravityValue)
+    public void ControlGravity(float gravityValue, string DEBUGORDERLOCATION)
     {
         rb.gravityScale = gravityValue;
     }
@@ -85,11 +125,10 @@ public class PlayerHandler : MonoBehaviour
 
     public void ResetPlayer()
     {
-
+        block.ClearBlock();
+        isFallen = false;
         resource.ResetResource();
     }
-
-
     public void FreezeRB(bool choice)
     {
         if (choice)
@@ -114,18 +153,42 @@ public class PlayerHandler : MonoBehaviour
 
     public bool IsFalling()
     {
-        return rb.velocity.y < 0;
+        return rb.velocity.y < -1;
     }
 
     #endregion
 
 
+    float currentPick;
+    float totalPick = 0.05f;
 
     private void OnTriggerEnter2D(Collider2D collision)
+    {
+
+        if (currentPick > 0)
+        {
+            Debug.Log("got blocked");
+            return;
+        }
+
+        IPickable pick = collision.gameObject.GetComponent<IPickable>();
+
+        if (pick == null) return;
+        Debug.Log("coin " + collision.gameObject.name + " " + gameObject.name);
+        pick.Pick();
+        currentPick = totalPick;
+
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         IPickable pick = collision.gameObject.GetComponent<IPickable>();
 
         if (pick == null) return;
+
+        Debug.Log("yo");
         pick.Pick();
     }
 }
+
+//what was the collision about?

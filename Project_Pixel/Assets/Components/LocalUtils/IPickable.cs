@@ -5,4 +5,5 @@ using UnityEngine;
 public interface IPickable 
 {
     public void Pick();
+    public string GetID();
 }

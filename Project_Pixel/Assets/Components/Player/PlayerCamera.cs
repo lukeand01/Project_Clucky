@@ -32,6 +32,15 @@ public class PlayerCamera : MonoBehaviour
     float current = 0;
     float total = 1.2f;
 
+    bool isForceFollow;
+    float currentForceFollow;
+    public void ForceFollow()
+    {
+        isForceFollow = true;
+
+        currentForceFollow = 0.2f;
+    }
+
     private void FixedUpdate()
     {
         if (cam == null)
@@ -49,19 +58,56 @@ public class PlayerCamera : MonoBehaviour
 
             return;
         }
-        
+
+        if (handler.isFallen)
+        {
+            return;
+        }
+
+        if(currentForceFollow > 0)
+        {
+            currentForceFollow -= Time.deltaTime;
+        }
 
 
-        if (!handler.IsGrounded() && total > current)
+        if (handler.IsGrounded() && isForceFollow && currentForceFollow <= 0)
+        {
+            Debug.Log("force follow not");
+            isForceFollow = false;
+        }
+
+
+
+        if (!handler.IsGrounded() && total > current && !isForceFollow)
         {
             //the camera does not follow.
             current += Time.deltaTime;
         }
         else
         {
-            Vector3 camPos = new Vector3(transform.position.x + x, transform.position.y + 1.5f + y, -20);
+
+            Vector3 camPos = Vector3.zero;
+
+            if (handler.IsGrounded() && PlayerHandler.instance.controller.isHoldingUp)
+            {
+                camPos = new Vector3(transform.position.x + x, transform.position.y + 2.5f + y, -20);
+
+            }
+            if (handler.IsFalling() || PlayerHandler.instance.controller.isHoldingDown)
+            {
+                camPos = new Vector3(transform.position.x + x, transform.position.y - 2.5f + y, -20);
+                          
+            }
+
+
+            if(camPos == Vector3.zero)
+            {
+                camPos = new Vector3(transform.position.x + x, transform.position.y + 1.5f + y, -20);
+            }
+            
             cam.transform.position = Vector3.SmoothDamp(cam.transform.position, camPos, ref velocity, dampTime);
             current = 0;
+
         }
     }
 
@@ -80,3 +126,8 @@ public class PlayerCamera : MonoBehaviour
     }
 
 }
+
+
+
+//how to better control camera.
+//when the player is falling then it moves a bit down.

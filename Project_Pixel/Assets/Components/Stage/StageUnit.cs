@@ -24,8 +24,13 @@ public class StageUnit : ButtonBase
         this.handler = handler;
 
         nameText.text = data.stageName;
+        coinText.text = "Coin: " + data.coinObtainedList.Count.ToString() + " / " + data.howManyCoinInScene.ToString();
+        blocked.SetActive(currentStage < data.stageID);
 
-        blocked.SetActive(currentStage < data.stageID);    
+        if (GameHandler.instance.DEBUGANYSTAGE)
+        {
+            blocked.SetActive(false);
+        }
     }
 
 

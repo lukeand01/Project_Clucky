@@ -45,6 +45,8 @@ public class BehaviorCharge : Node
                 return NodeState.Failure;
             }
 
+            
+
             if(enemy.IsWall(dir, 0.5f))
             {
                 Debug.Log("there is a wall ahead");

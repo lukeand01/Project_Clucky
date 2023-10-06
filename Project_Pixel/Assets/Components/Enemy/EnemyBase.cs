@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class EnemyBase : Tree, IDamageable
 {
+    public string enemyName;
     [Separator("STATS")]
     public float damage;
     public float initialHealth;
@@ -13,6 +14,9 @@ public class EnemyBase : Tree, IDamageable
     public float moveSpeed;
     public float totalCooldown;
     public float patrolDistance;
+
+    [Separator("PIECES")]
+    public BoxCollider2D feetCollider;
 
     float currentHealth;
 
@@ -34,6 +38,7 @@ public class EnemyBase : Tree, IDamageable
 
     [HideInInspector] public Vector3 originalPos;
 
+    public bool shouldRotateJustGraphic;
 
     private void Awake()
     {
@@ -52,6 +57,16 @@ public class EnemyBase : Tree, IDamageable
         originalPos = transform.position;
     }
 
+    public void ControlRBGravity(float value)
+    {
+        rb.gravityScale = value;
+    }
+
+    public void ControlRBBodyType(RigidbodyType2D bodyType)
+    {
+        rb.bodyType = bodyType;
+    }
+
     void SetUpComponents()
     {
         graphicHolder = transform.GetChild(0).gameObject;
@@ -65,9 +80,30 @@ public class EnemyBase : Tree, IDamageable
 
     }
 
+    protected override void UpdateFunction()
+    {
+        base.UpdateFunction();
+
+        
+        //control the falling.
+
+    }
+
+    public void ClampFallSpeed(float value)
+    {
+        if(value > rb.velocity.y)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, value);
+        }
+    }
+
     public void MoveRb(Vector2 dir)
     {
         rb.velocity += dir * moveSpeed * Time.deltaTime;
+    }
+    public void ForceMoveRb(float dir)
+    {
+        rb.velocity = new Vector3(dir * moveSpeed, rb.velocity.y);
     }
 
     public void TakeDamage(float damage)
@@ -99,10 +135,14 @@ public class EnemyBase : Tree, IDamageable
         isHit = false;
     }
 
+
+    public void CompleteStop()
+    {
+        rb.velocity = Vector2.zero;
+    }
+
     public void MoveHorizontal(int dir, float speedModifier = 1)
     {
-
-
         rb.velocity = new Vector2(dir * moveSpeed * speedModifier, rb.velocity.y);
        
 
@@ -112,14 +152,31 @@ public class EnemyBase : Tree, IDamageable
     {
         if (dir == 0) return;
 
-        if (dir == 1)
+
+        if (shouldRotateJustGraphic)
         {
-            transform.rotation = new Quaternion(0, 0, 0, 0);
+            if (dir == -1)
+            {
+                graphicHolder.transform.rotation = new Quaternion(0, 0, 0, 0);
+            }
+            if (dir == 1)
+            {
+                graphicHolder.transform.rotation = new Quaternion(0, 180, 0, 0);
+            }
         }
-        if (dir == -1)
+        else
         {
-            transform.rotation = new Quaternion(0, 180, 0, 0);
+            if (dir == -1)
+            {
+                transform.rotation = new Quaternion(0, 0, 0, 0);
+            }
+            if (dir == 1)
+            {
+                transform.rotation = new Quaternion(0, 180, 0, 0);
+            }
         }
+
+        
     }
 
 
@@ -142,6 +199,7 @@ public class EnemyBase : Tree, IDamageable
     {
         if (IsAttacked()) return;
         if (IsAnimationRunning(ANIMATION_READY)) return;
+        if (IsAttacking()) return;
 
         PlayAnimation(ANIMATION_IDLE);
     }
@@ -149,6 +207,7 @@ public class EnemyBase : Tree, IDamageable
     {
         if (IsAttacked()) return;
         if (IsAnimationRunning(ANIMATION_READY)) return;
+        if (IsAttacking()) return;
 
         PlayAnimation(ANIMATION_WALK);
     }
@@ -172,7 +231,7 @@ public class EnemyBase : Tree, IDamageable
 
     void PlayAnimation(string id)
     {
-        anim.Play(id + gameObject.name);
+        anim.Play(id + enemyName);
     }
 
     public bool IsAttacked()
@@ -181,10 +240,15 @@ public class EnemyBase : Tree, IDamageable
 
         return false;
     }
+
+    public bool IsAttacking()
+    {
+        return IsAnimationRunning(ANIMATION_ATTACK);
+    }
     
     bool IsAnimationRunning(string id)
     {
-        return anim.GetCurrentAnimatorStateInfo(0).IsName(id + gameObject.name);
+        return anim.GetCurrentAnimatorStateInfo(0).IsName(id + enemyName);
     }
 
 
@@ -193,6 +257,7 @@ public class EnemyBase : Tree, IDamageable
     #region UTILS
     public bool IsWall(int dir, float distance)
     {
+
         bool check = Physics2D.Raycast(transform.position, Vector2.right * dir, distance, LayerMask.GetMask("Ground"));
 
         return check;
@@ -200,7 +265,8 @@ public class EnemyBase : Tree, IDamageable
 
     public bool IsLedge(int dir, float distance)
     {
-        bool check = Physics2D.Raycast(transform.position + (new Vector3(2,0,0) * dir), Vector3.down, distance, LayerMask.GetMask("Ground"));
+        bool check = Physics2D.Raycast(transform.position + (new Vector3(1.5f,0,0) * dir), Vector3.down, distance, LayerMask.GetMask("Ground"));
+
 
         return !check;
     }
@@ -223,5 +289,17 @@ public class EnemyBase : Tree, IDamageable
 
     }
 
+
+    public bool IsGrounded(float modifier = 0)
+    {
+        return Physics2D.BoxCast(feetCollider.bounds.center, feetCollider.bounds.size, 0, Vector2.down, .1f + modifier, LayerMask.GetMask("Ground"));
+    }
+
     #endregion
+
+
+    public virtual void ShootProjectil()
+    {
+
+    }
 }

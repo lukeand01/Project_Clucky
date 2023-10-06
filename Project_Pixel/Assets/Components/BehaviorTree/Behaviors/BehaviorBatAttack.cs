@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using UnityEngine;
 
 public class BehaviorBatAttack : Node
@@ -8,36 +9,80 @@ public class BehaviorBatAttack : Node
     EnemyBase enemy;
     bool isInit;
 
-    Vector3 targetDir;
+    int dir;
+
     Vector3 originalPos;
 
-    public BehaviorBatAttack(EnemyBase enemy)
+    //drop timer.
+
+    float currentDrop;
+    float totalDrop;
+
+    bool isNext;
+
+    //wee clamp it.
+    float currentFallSpeed;
+
+
+    public BehaviorBatAttack(EnemyBase enemy, float totalDrop)
     {
         this.enemy = enemy;
+        this.totalDrop = totalDrop;
+
+        currentFallSpeed = -5;
     }
 
     public override NodeState Evaluate()
     {
         //goes after the player but if he miss he just keep going down and leaves the place.
         //it drops 
+        enemy.AttackAnimation();
 
+       
+
+
+
+        if (!isNext)
+        {
+            if (enemy.IsGrounded(1.5f))
+            {
+                isNext = true;
+            }
+
+            if (totalDrop > currentDrop)
+            {
+                
+                currentDrop += Time.deltaTime;
+                enemy.ControlRBBodyType(RigidbodyType2D.Dynamic);
+            }
+            else
+            {
+                isNext = true;
+            }
+
+
+            return NodeState.Running;
+        }
+
+        
+     
         if (!isInit)
         {
-            //get the target.
+            enemy.ControlRBBodyType(RigidbodyType2D.Kinematic);
+            
+            dir = GetDir();
             isInit = true;
-            targetDir = GetDir();
-            originalPos = enemy.transform.position;
         }
 
 
-   
 
-        enemy.AttackAnimation();
-        enemy.MoveRb(targetDir);
+        currentFallSpeed += Time.deltaTime * 15f;
+        currentFallSpeed = Mathf.Clamp(currentFallSpeed, -9, -0.35f);
 
-        //after long eneough i will simply destroy this fella.
+        enemy.ClampFallSpeed(currentFallSpeed);
+        enemy.ForceMoveRb(dir);
 
-        if(Vector3.Distance(originalPos, enemy.transform.position) > 50)
+        if (Vector3.Distance(originalPos, enemy.transform.position) > 50)
         {
             enemy.TakeDamage(1000);
         }
@@ -46,9 +91,24 @@ public class BehaviorBatAttack : Node
         return NodeState.Running;
     }
 
-    Vector3 GetDir()
+    int GetDir()
     {
-        return PlayerHandler.instance.transform.position - enemy.transform.position;
+        Vector3 diff = PlayerHandler.instance.transform.position - enemy.transform.position;
+
+        if(diff.x > 0)
+        {
+            return 1;
+
+        }
+
+        if(diff.x < 0)
+        {
+            return -1;
+        }
+
+        return 1;
+
+
     }
 
 

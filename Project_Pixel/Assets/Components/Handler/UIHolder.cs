@@ -10,6 +10,7 @@ public class UIHolder : MonoBehaviour
     public VictoryUI victory;
     public DeathUI death;
     public PlayerGUI player;
+    public TutorialUI tutorial;
 
     private void Awake()
     {
