@@ -1,3 +1,4 @@
+using MyBox;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -41,10 +42,13 @@ public class StageData : ScriptableObject
         foreach (var item in coinObtainedList)
         {
             this.coinObtainedList.Add(item);
-        }
-
-       
+        }      
     }
+
+    [Separator("SOUND")]
+    public AudioClip backgroundClip;
+
+
 
     //this is the pos of the thing.
     //and so anytime the locahandler starts we check all coins based on that list.

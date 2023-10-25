@@ -12,6 +12,7 @@ public class GameHandler : MonoBehaviour
     [HideInInspector] public Observer observer;
     [HideInInspector] public StageHandler stageHandler;
     [HideInInspector] public SceneLoader loader;
+    [HideInInspector] public SoundHandler sound;
 
     //i can keep the save data here?
     SaveClass save;
@@ -42,6 +43,7 @@ public class GameHandler : MonoBehaviour
         observer = new Observer();
         stageHandler = gameObject.GetComponent<StageHandler>();
         loader = gameObject.GetComponent<SceneLoader>();
+        sound = gameObject.GetComponent<SoundHandler>();
     }
 
     private void Start()
@@ -97,10 +99,7 @@ public class GameHandler : MonoBehaviour
 
     
 
-    public void CreateSFX(AudioClip clip)
-    {
-
-    }
+    
 
 
     public void ProgressToNextStage()

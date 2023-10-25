@@ -8,16 +8,19 @@ public class MainMenuHandler : MonoBehaviour
     [SerializeField] GameObject mainScreen;
     [SerializeField] List<GameObject> screenList = new();
     [SerializeField] TextMeshProUGUI goldText;
+    [SerializeField] AudioClip backgroundMusic;
 
     private void Start()
     {
         GameHandler.instance.observer.EventMMUpdateGold += UpdatePlayerGold;
+        GameHandler.instance.sound.ChangeBGM(backgroundMusic);
     }
 
     void UpdatePlayerGold(int gold)
     {
         //TERRIBLE SOLUTION BUT IT IS WHAT IT IS.
-        goldText.text = "Gold: " + gold.ToString();
+        //goldText.text = "Gold: " + gold.ToString();
+        UIHolder.instance.player.UpdateMenuCoin(gold);
     }
 
     public void Play()

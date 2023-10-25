@@ -20,3 +20,4 @@ MonoBehaviour:
   stageDescription: This is the Eight stage
   howManyCoinInScene: 12
   coinObtainedList: 
+  backgroundClip: {fileID: 8300000, guid: 3d8fae5cd80c8b643b2331c78521209e, type: 3}

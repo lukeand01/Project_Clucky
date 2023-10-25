@@ -11,6 +11,7 @@ public class UIHolder : MonoBehaviour
     public DeathUI death;
     public PlayerGUI player;
     public TutorialUI tutorial;
+    public SettingsUI settings;
 
     private void Awake()
     {

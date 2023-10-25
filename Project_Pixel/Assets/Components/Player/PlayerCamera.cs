@@ -18,6 +18,7 @@ public class PlayerCamera : MonoBehaviour
 
     bool isCameraLocked;
 
+    [SerializeField] bool cantUseCamera;
 
     private void Awake()
     {
@@ -41,8 +42,15 @@ public class PlayerCamera : MonoBehaviour
         currentForceFollow = 0.2f;
     }
 
+    public void ControlCameraUse(bool choice)
+    {
+        cantUseCamera = choice;
+    }
+
     private void FixedUpdate()
     {
+        if (cantUseCamera) return;
+
         if (cam == null)
         {
 
@@ -102,7 +110,7 @@ public class PlayerCamera : MonoBehaviour
 
             if(camPos == Vector3.zero)
             {
-                camPos = new Vector3(transform.position.x + x, transform.position.y + 1.5f + y, -20);
+                camPos = new Vector3(transform.position.x + x, transform.position.y + 0.5f + y, -20);
             }
             
             cam.transform.position = Vector3.SmoothDamp(cam.transform.position, camPos, ref velocity, dampTime);

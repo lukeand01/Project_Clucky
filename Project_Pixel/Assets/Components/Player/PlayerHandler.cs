@@ -2,6 +2,7 @@ using MyBox;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerHandler : MonoBehaviour
@@ -33,7 +34,18 @@ public class PlayerHandler : MonoBehaviour
     public bool DEBUGisImmune;
 
     public int PlayerGold;
-    
+
+    [HideInInspector] public AudioSource walkSource;
+
+    [Separator("SFX")]
+    public AudioClip jumpSFX;
+    public AudioClip fallSFX;
+    public AudioClip deathSFX;
+    public AudioClip walkSFX;
+
+    [Separator("AUDIO")]
+    public AudioClip deathBGM;
+
     public void AddCoin(int coin)
     {
         PlayerGold += coin;
@@ -71,6 +83,14 @@ public class PlayerHandler : MonoBehaviour
         block = new BlockClass();
 
         totalPick = 0.05f;
+
+        walkSource = GetComponent<AudioSource>();
+
+        if (walkSource == null) walkSource = gameObject.AddComponent<AudioSource>();
+
+        walkSource.clip = walkSFX;
+        walkSource.loop = true;
+
     }
 
     public void ReceiveSaveData(SaveClass save)
@@ -123,6 +143,8 @@ public class PlayerHandler : MonoBehaviour
 
     #endregion
 
+
+    
     public void ResetPlayer()
     {
         block.ClearBlock();
@@ -150,6 +172,10 @@ public class PlayerHandler : MonoBehaviour
     {
         return Physics2D.BoxCast(feetCollider.bounds.center, feetCollider.bounds.size, 0, Vector2.down, distance, jumpableLayer);
     }
+    public Vector2 GetGroundPoint()
+    {
+        return Physics2D.BoxCast(feetCollider.bounds.center, feetCollider.bounds.size, 0, Vector2.down, 10, jumpableLayer).point;
+    }
 
     public bool IsFalling()
     {
@@ -167,14 +193,12 @@ public class PlayerHandler : MonoBehaviour
 
         if (currentPick > 0)
         {
-            Debug.Log("got blocked");
             return;
         }
 
         IPickable pick = collision.gameObject.GetComponent<IPickable>();
 
         if (pick == null) return;
-        Debug.Log("coin " + collision.gameObject.name + " " + gameObject.name);
         pick.Pick();
         currentPick = totalPick;
 

@@ -29,16 +29,10 @@ public class TutorialUI : MonoBehaviour
     {
         originalPos = background.transform.localPosition;
 
-        Debug.Log(originalPos);
-        Debug.Log(background.transform.localPosition);
 
     }
 
-    [ContextMenu("START")]
-    public void Test()
-    {
-        StartTutorial(data);
-    }
+    
 
 
     public void StartTutorial(TutorialData data)
@@ -68,14 +62,17 @@ public class TutorialUI : MonoBehaviour
 
     IEnumerator OpenProcess()
     {
+
         
-        while (originalPos.y - 30 > background.transform.localPosition.y)
+        while (originalPos.y - 120 < background.transform.localPosition.y)
         {
-            Debug.Log("one");
+
             background.transform.localPosition += new Vector3(0,-1.5f, 0);
             yield return new WaitForSeconds(Time.deltaTime);
         }
-        Debug.Log("end");
+
+        
+
     }
     IEnumerator CloseProcess()
     {

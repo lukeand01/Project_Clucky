@@ -41,18 +41,18 @@ public class LocalHandler : MonoBehaviour
         //steps
         //when the game first loads we check
 
-
-
         survival = GetComponent<SurvivalHandler>();
         if (survival != null) survival.StartSurvival();
 
         RemoveCoinsBasedInSave();
-        
+
+        if(GameHandler.instance != null) GameHandler.instance.sound.ChangeBGM(stageData.backgroundClip);
     }
 
     void RemoveCoinsBasedInSave()
     {
         GameObject[] coinInScene = GameObject.FindGameObjectsWithTag("Coin");
+
 
         for (int i = 0; i < coinInScene.Length; i++)
         {
@@ -138,7 +138,6 @@ public class LocalHandler : MonoBehaviour
         UIHolder.instance.pause.Force(false);
         if(originalEgg == null)
         {
-            Debug.Log("somthing wrong about the egg");
             Egg newEgg = GameHandler.instance.eggTemplate;
             Instantiate(newEgg, originalEggPos.position, Quaternion.identity);
         }

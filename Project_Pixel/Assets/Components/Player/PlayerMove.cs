@@ -2,6 +2,7 @@ using MyBox;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
@@ -10,6 +11,12 @@ public class PlayerMove : MonoBehaviour
     //this controls movement and jump.
 
     PlayerHandler handler;
+
+    [Separator("PS REFERENCES")]
+    [SerializeField] ParticleSystem psWalk;
+    [SerializeField] ParticleSystem psJumpFall;
+    [SerializeField] float totalForPSJumpFall;
+    float currentForPSJumpFall;
 
     private void Awake()
     {
@@ -23,6 +30,10 @@ public class PlayerMove : MonoBehaviour
         isGrounded = handler.IsGrounded();
 
         HandleJump();
+
+        
+
+
     }
 
 
@@ -36,6 +47,8 @@ public class PlayerMove : MonoBehaviour
 
     public void MoveHorizontal(int dir)
     {
+        handler.walkSource.enabled = dir != 0 && isGrounded;
+        psWalk.gameObject.SetActive(dir != 0 && isGrounded);
 
         if(dir == 0)
         {
@@ -45,6 +58,8 @@ public class PlayerMove : MonoBehaviour
         {
             handler.graphic.RotateSprite(dir);
             handler.graphic.WalkAnimation();
+
+
             lastDir = dir;
         }
 
@@ -108,6 +123,11 @@ public class PlayerMove : MonoBehaviour
 
     void HandleJump()
     {
+        if(currentForPSJumpFall > 0)
+        {
+            currentForPSJumpFall -= Time.deltaTime;
+        }
+
 
         if(cannotControl && currentCannotControl > 0)
         {
@@ -148,10 +168,32 @@ public class PlayerMove : MonoBehaviour
             }
         }
 
-        if (!isGrounded && isReleased && !isApex)
+
+
+        if (!isGrounded)
         {
-            handler.ControlGravity(fallingGravity, "falling");
+            if(isReleased && !isApex) handler.ControlGravity(fallingGravity, "falling");
+
+            if (!cannotJump)
+            {
+                if (coyoteTotal > coyoteCurrent)
+                {
+                    coyoteCurrent += Time.deltaTime;
+                }
+                else
+                {
+                    cannotJump = true;
+                }
+            }
+
+            if (handler.IsCloseToGround(0.1f) && handler.rb.velocity.y < 5)
+            {
+                SpawnPSJump();
+
+            }
+
         }
+
 
         if (isGrounded)
         {
@@ -174,26 +216,11 @@ public class PlayerMove : MonoBehaviour
 
         HandleLedges();
 
-        if (!isGrounded && !cannotJump)
-        {
-            if(coyoteTotal > coyoteCurrent)
-            {
-                coyoteCurrent += Time.deltaTime;
-            }
-            else
-            {
-                cannotJump = true;
-            }
-        }
+        
 
         
 
-        if (handler.rb.velocity.y < 0)
-        {
-            
-
-
-        }
+        
     }
 
     void HandleLedges()
@@ -233,7 +260,7 @@ public class PlayerMove : MonoBehaviour
             cannotJump = true;
             handler.ControlGravity(baseGravity, "preess");
             Jump(jumpForce);
-
+            GameHandler.instance.sound.CreateSFX(handler.jumpSFX);
 
             cooldownBeforeHoldCurrent = 0;
             jumpHeightCurrent = 0;
@@ -258,7 +285,9 @@ public class PlayerMove : MonoBehaviour
         cannotJump = true;
         handler.ControlGravity(baseGravity, "base");
         Jump(jumpForce);
-
+        GameHandler.instance.sound.CreateSFX(handler.jumpSFX);
+        //spawn the thing by the base.
+        if (isGrounded) SpawnPSJump();
 
         cooldownBeforeHoldCurrent = 0;
         jumpHeightCurrent = 0;
@@ -302,7 +331,7 @@ public class PlayerMove : MonoBehaviour
         PlayerHandler.instance.cam.ForceFollow();
 
         Jump(jumpForce * modifier);
-
+        GameHandler.instance.sound.CreateSFX(handler.jumpSFX);
         cannotControl = true;
         currentCannotControl = totalCannotControl;
 
@@ -322,6 +351,24 @@ public class PlayerMove : MonoBehaviour
         Vector2 force = Vector2.up * jumpForce * -Physics2D.gravity.y * 0.02f;
         handler.rb.velocity += force;
     }
+
+    void SpawnPSJump()
+    {
+        //we need to get information relating to the ground.
+
+        if (currentForPSJumpFall > 0)
+        {
+            Debug.Log("couldnt here");
+            return;
+        }
+
+        currentForPSJumpFall = totalForPSJumpFall;
+
+        ParticleSystem newObject = Instantiate(psJumpFall, handler.GetGroundPoint(), Quaternion.identity);
+        newObject.gameObject.SetActive(true);
+        newObject.gameObject.GetComponent<DestroySelf>().SetUp(newObject.main.duration + 0.1f);
+    }
+
     #endregion
 
 

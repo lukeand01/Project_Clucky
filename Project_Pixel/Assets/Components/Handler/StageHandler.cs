@@ -80,7 +80,6 @@ public class StageHandler : MonoBehaviour
         
         foreach (var item in save.stageSaveList)
         {
-            Debug.Log("worldID: " + item.worldID + " StageID " + item.stageID + " how much gold: " + item.obtainedGoldList.Count);
             WorldStageData world = worldList[item.worldID];
             StageData stage = world.stageList[item.stageID];
             stage.ReceiveSave(item.obtainedGoldList);

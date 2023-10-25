@@ -167,9 +167,16 @@
 
 
 //NEW GOALS
-//tutorial things
-//10 stages (0/10)
-//music
-//change ui placeholders. add some effcts.
-//add a boss.
-//add vsx to player and enemies for moving and jumping.
+///tutorial things
+///applying tutorial for all new features in the game.
+//10 stages (8/10)
+///music (background music, player jump, death, enemies)
+///change ui placeholders. add some effcts.
+///add a boss.
+///add vsx to player and enemies for moving and jumping.
+///plataforrm that falls after being touched.
+///settings menu
+///main menu systemm for showing differnt backgrounds.
+///
+
+//the pig is constantly not working.

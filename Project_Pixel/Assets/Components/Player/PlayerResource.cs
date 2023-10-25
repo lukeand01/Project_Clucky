@@ -26,6 +26,7 @@ public class PlayerResource : MonoBehaviour, IDamageable
         GameHandler.instance.LoseGame();
 
         IsImmune = true;
+        GameHandler.instance.sound.CreateSFX(handler.deathSFX);
         StartCoroutine(DieProcess());
         
     }

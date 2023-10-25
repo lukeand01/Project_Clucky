@@ -74,7 +74,6 @@ public class SceneLoader : MonoBehaviour
         }
 
            
-
        yield return new WaitForSeconds(0.05f);
         
 
@@ -85,7 +84,9 @@ public class SceneLoader : MonoBehaviour
                 yield return new WaitForSeconds(0.01f);
             }
             LocalHandler.instance.InitScene();
+            
         }
+        
 
        
        if(PlayerHandler.instance != null)
@@ -93,6 +94,7 @@ public class SceneLoader : MonoBehaviour
             PlayerHandler.instance.ResetPlayer();
             PlayerHandler.instance.FreezeRB(false);
             PlayerHandler.instance.UpdateMMUI();
+            PlayerHandler.instance.cam.ControlCameraUse(scene == 0);
         }
 
 

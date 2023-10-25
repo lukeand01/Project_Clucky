@@ -40,13 +40,11 @@ public class PauseUI : MonoBehaviour
 
     public void Resume()
     {
-        Debug.Log("resume");
         Control();
     }
 
     public void RestartLevel()
     {
-        Debug.Log("reestart level");
         Control();
         GameHandler.instance.loader.ResetScene();
     }
@@ -62,7 +60,7 @@ public class PauseUI : MonoBehaviour
 
     public void Settings()
     {
-
+        UIHolder.instance.settings.Open();
     }
 
 }
