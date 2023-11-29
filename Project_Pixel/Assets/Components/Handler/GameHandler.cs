@@ -13,7 +13,7 @@ public class GameHandler : MonoBehaviour
     [HideInInspector] public StageHandler stageHandler;
     [HideInInspector] public SceneLoader loader;
     [HideInInspector] public SoundHandler sound;
-
+    [HideInInspector] public AdsHandler ad;
     //i can keep the save data here?
     SaveClass save;
 
@@ -44,6 +44,7 @@ public class GameHandler : MonoBehaviour
         stageHandler = gameObject.GetComponent<StageHandler>();
         loader = gameObject.GetComponent<SceneLoader>();
         sound = gameObject.GetComponent<SoundHandler>();
+        ad = gameObject.GetComponent<AdsHandler>();
     }
 
     private void Start()

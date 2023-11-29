@@ -295,6 +295,12 @@ public class EnemyBase : Tree, IDamageable
         return Physics2D.BoxCast(feetCollider.bounds.center, feetCollider.bounds.size, 0, Vector2.down, .1f + modifier, LayerMask.GetMask("Ground"));
     }
 
+
+    public float GetDistanceToGround()
+    {
+       RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 999, LayerMask.GetMask("Ground"));
+        return hit.distance;
+    }
     #endregion
 
 

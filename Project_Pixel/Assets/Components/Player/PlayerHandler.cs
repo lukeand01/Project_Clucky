@@ -46,6 +46,8 @@ public class PlayerHandler : MonoBehaviour
     [Separator("AUDIO")]
     public AudioClip deathBGM;
 
+    #region GOLD
+    //
     public void AddCoin(int coin)
     {
         PlayerGold += coin;
@@ -62,7 +64,7 @@ public class PlayerHandler : MonoBehaviour
     {
         GameHandler.instance.observer.OnMMUpdateGold(PlayerGold);
     }
-
+    #endregion
 
     [ContextMenu("SDASD")]
     public void STUFF()

@@ -39,27 +39,16 @@ public class BehaviorBatAttack : Node
         enemy.AttackAnimation();
 
        
-
-
-
         if (!isNext)
         {
-            if (enemy.IsGrounded(1.5f))
+            if (enemy.IsGrounded(totalDrop))
             {
                 isNext = true;
-            }
-
-            if (totalDrop > currentDrop)
-            {
-                
-                currentDrop += Time.deltaTime;
-                enemy.ControlRBBodyType(RigidbodyType2D.Dynamic);
             }
             else
             {
-                isNext = true;
+                enemy.ControlRBBodyType(RigidbodyType2D.Dynamic);
             }
-
 
             return NodeState.Running;
         }

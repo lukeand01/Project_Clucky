@@ -180,3 +180,29 @@
 ///
 
 //the pig is constantly not working.
+
+//TO DO NOW
+//create a banner ad that stays in the top at all times.
+//create a ad aftr go to another scene.
+//create the system for in game purchasese.
+
+//ROAD TO FINSIHING CLUNKY
+//get the ad system working
+//banner ad
+//ad after every phase.
+//can watch an ad to double the gained coin value.
+//try to get more assets
+//improve the ui. all buttons.
+//enemies are still active after unloading and loading the scene.
+
+
+//TO BE TESTED
+//improve the bat. its quite inconsitent and weird how it works.
+//improve the spykes. they are shaking too much. the colliders are appearing too fast.
+//once you win you can no longer be interacted.
+//movement is not good - i made it a bit more precise.
+//
+
+//DONE
+//animation effect for clicking on buttons.
+//improve the tutorial. it needs to be consume quicker.

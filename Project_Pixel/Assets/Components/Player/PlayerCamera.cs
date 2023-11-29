@@ -133,6 +133,11 @@ public class PlayerCamera : MonoBehaviour
         y = change;
     }
 
+
+    public void ForceCameraIntoTransform(Transform transform)
+    {
+        cam.transform.position = transform.position;
+    }
 }
 
 

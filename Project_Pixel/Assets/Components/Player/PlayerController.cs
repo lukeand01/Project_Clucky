@@ -93,12 +93,12 @@ public class PlayerController : MonoBehaviour
         InputLookDown(IsDown());        
         if (IsRight())
         {          
-            handler.move.MoveHorizontal(1);
+            handler.move.MoveHorizontal(joystick.Direction.x);
             return;
         }
         if (IsLeft())
         {
-            handler.move.MoveHorizontal(-1);
+            handler.move.MoveHorizontal(joystick.Direction.x);
             return;
         }
         handler.move.MoveHorizontal(0);

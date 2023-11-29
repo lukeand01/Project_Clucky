@@ -120,7 +120,11 @@ public class LocalHandler : MonoBehaviour
 
     public void InitScene()
     {
-        Transform pos = PlayerHandler.instance.transform;
+        PlayerHandler handler = PlayerHandler.instance;
+        Transform pos = handler.transform;
+
+        handler.cam.ForceCameraIntoTransform(pos);
+
 
         pos.position = initialPos.position;
 
@@ -141,6 +145,9 @@ public class LocalHandler : MonoBehaviour
             Egg newEgg = GameHandler.instance.eggTemplate;
             Instantiate(newEgg, originalEggPos.position, Quaternion.identity);
         }
+
+
+        
     }
 
     public void WinScene()

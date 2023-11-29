@@ -10,9 +10,6 @@ public class Spyke : MonoBehaviour
     float currentTimeToStart = 0;
 
 
-    float currentTillDanger;
-    float totalTillDanger = 0.35f;
-
     bool isWorking;
     public bool isActive;
 
@@ -30,7 +27,6 @@ public class Spyke : MonoBehaviour
         myCollider = GetComponent<BoxCollider2D>();
         anim = transform.GetChild(0).GetComponent<Animator>();
         anim.SetBool("IsActive", isActive);
-
         StartCoroutine(FirstProcess());
     }
 
@@ -54,19 +50,16 @@ public class Spyke : MonoBehaviour
         }
         else
         {
-
-
-
             //shake.
 
             float current = 0;
-            float total = 0.55f;
+            float total = 0.6f;
 
             while (total > current)
             {
                 current += Time.deltaTime;
 
-                float offset = Random.Range(-0.025f, 0.025f);
+                float offset = Random.Range(-0.015f, 0.015f);
 
                 transform.position = new Vector3(transform.position.x + offset, transform.position.y, 0);
                 yield return new WaitForSeconds(Time.deltaTime);

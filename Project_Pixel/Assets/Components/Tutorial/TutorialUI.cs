@@ -67,8 +67,8 @@ public class TutorialUI : MonoBehaviour
         while (originalPos.y - 120 < background.transform.localPosition.y)
         {
 
-            background.transform.localPosition += new Vector3(0,-1.5f, 0);
-            yield return new WaitForSeconds(Time.deltaTime);
+            background.transform.localPosition += new Vector3(0,-8.5f, 0);
+            yield return new WaitForSeconds(0.001f);
         }
 
         
@@ -78,8 +78,8 @@ public class TutorialUI : MonoBehaviour
     {
         while (originalPos.y > background.transform.localPosition.y)
         {
-            background.transform.localPosition += new Vector3(0, 1.5f, 0);
-            yield return new WaitForSeconds(Time.deltaTime);
+            background.transform.localPosition += new Vector3(0, 8.5f, 0);
+            yield return new WaitForSeconds(0.001f);
         }
     }
 

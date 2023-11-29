@@ -45,8 +45,23 @@ public class PlayerMove : MonoBehaviour
     int currentDir;
     int lastDir;
 
-    public void MoveHorizontal(int dir)
+    public void MoveHorizontal(float dir)
     {
+
+        float actualValue = Mathf.Abs(dir);
+        int turnDir = 0;
+        if(dir > 0)
+        {
+            actualValue = Mathf.Clamp(actualValue, 0.7f, 1);
+            turnDir = 1;
+        }
+        else
+        {
+            actualValue = Mathf.Clamp(actualValue, 0.7f, 1);
+            actualValue *= -1;
+            turnDir = -1;
+        }
+
         handler.walkSource.enabled = dir != 0 && isGrounded;
         psWalk.gameObject.SetActive(dir != 0 && isGrounded);
 
@@ -56,14 +71,14 @@ public class PlayerMove : MonoBehaviour
         }
         else
         {
-            handler.graphic.RotateSprite(dir);
+            handler.graphic.RotateSprite(turnDir);
             handler.graphic.WalkAnimation();
 
 
-            lastDir = dir;
+            lastDir = turnDir;
         }
 
-        currentDir = dir;
+        currentDir = turnDir;
         handler.rb.velocity = new Vector2(dir * currentSpeed * speedModifierApex, handler.rb.velocity.y);
     }
 

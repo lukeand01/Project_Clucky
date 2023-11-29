@@ -17,7 +17,11 @@ public class PlayerResource : MonoBehaviour, IDamageable
     {
         IsImmune = false;
     }
-    public void ControlImmunity(bool choice) => IsImmune = choice;
+    public void ControlImmunity(bool choice)
+    {
+        IsImmune = choice;
+        gameObject.layer = choice ? 8 : 3;
+    }
 
     public void TakeDamage(float damage)
     {

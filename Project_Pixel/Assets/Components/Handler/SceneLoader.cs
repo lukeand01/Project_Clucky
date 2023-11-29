@@ -10,11 +10,15 @@ public class SceneLoader : MonoBehaviour
     GameHandler handler;
     [SerializeField] Image blackScreen;
     public int currentScene = 0;
+    bool nextStageLoadsAD;
+
 
     private void Awake()
     {
         handler = GetComponent<GameHandler>();
     }
+
+   
 
     public void ChangeScene(int scene, StageData stage = null)
     {
@@ -41,6 +45,52 @@ public class SceneLoader : MonoBehaviour
             PlayerHandler.instance.FreezeRB(true);
             PlayerHandler.instance.block.AddBlock("Loader", BlockClass.BlockType.Complete);
         }
+
+        //THIS IS JUST FOR TESTING
+
+        //also everytime is a new phase.
+        GameHandler handler = GameHandler.instance;
+
+        if(scene >= handler.stageHandler.stageCurrentProgress)
+        {
+            Debug.Log("checked dthis instead");
+            AdsHandler adHandler = GameHandler.instance.ad;
+            adHandler.PlayInterstialAD();
+
+            while (adHandler.isProcess)
+            {
+                Debug.Log("Process");
+                yield return null;
+            }
+            Debug.Log("ad is done");
+        }
+        else
+        {
+            if (nextStageLoadsAD)
+            {
+                if (scene != 0)
+                {
+                    //then we play an ad before anything else.
+                    Debug.Log("should have loaded a scene");
+                    AdsHandler adHandler = GameHandler.instance.ad;
+                    adHandler.PlayInterstialAD();
+
+                    while (adHandler.isProcess)
+                    {
+                        Debug.Log("Process");
+                        yield return null;
+                    }
+                    Debug.Log("add is done");
+                }
+
+
+            }
+            else
+            {
+                nextStageLoadsAD = true;
+            }
+        }
+     
 
         //black screen increase
         blackScreen.gameObject.SetActive(true);
