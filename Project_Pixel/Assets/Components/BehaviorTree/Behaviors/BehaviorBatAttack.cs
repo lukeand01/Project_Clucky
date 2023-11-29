@@ -58,17 +58,17 @@ public class BehaviorBatAttack : Node
         if (!isInit)
         {
             enemy.ControlRBBodyType(RigidbodyType2D.Kinematic);
-            
+            enemy.CompleteStop();
             dir = GetDir();
             isInit = true;
         }
-
 
 
         currentFallSpeed += Time.deltaTime * 15f;
         currentFallSpeed = Mathf.Clamp(currentFallSpeed, -9, -0.35f);
 
         enemy.ClampFallSpeed(currentFallSpeed);
+        
         enemy.ForceMoveRb(dir);
 
         if (Vector3.Distance(originalPos, enemy.transform.position) > 50)
@@ -83,6 +83,8 @@ public class BehaviorBatAttack : Node
     int GetDir()
     {
         Vector3 diff = PlayerHandler.instance.transform.position - enemy.transform.position;
+
+        diff.y = 0;
 
         if(diff.x > 0)
         {

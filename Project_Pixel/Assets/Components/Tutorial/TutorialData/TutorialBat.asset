@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: TutorialBat
   m_EditorClassIdentifier: 
   tutorialSprite: {fileID: 0}
-  tutorialDescription: Careful you will wake the bats! just remember to jump...
+  tutorialDescription: Careful you will wake the bats! remember that they dont want
+    to hurt you. so do not jump!

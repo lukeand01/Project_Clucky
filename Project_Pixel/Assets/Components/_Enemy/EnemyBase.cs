@@ -38,6 +38,9 @@ public class EnemyBase : Tree, IDamageable
 
     [HideInInspector] public Vector3 originalPos;
 
+    [Separator("Audio Clips")]
+    [SerializeField] protected List<AudioClip> clipList = new();
+
     public bool shouldRotateJustGraphic;
 
     private void Awake()
@@ -140,6 +143,8 @@ public class EnemyBase : Tree, IDamageable
     {
         rb.velocity = Vector2.zero;
     }
+   
+
 
     public void MoveHorizontal(int dir, float speedModifier = 1)
     {
@@ -300,6 +305,15 @@ public class EnemyBase : Tree, IDamageable
     {
        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 999, LayerMask.GetMask("Ground"));
         return hit.distance;
+    }
+
+    public AudioClip GetAudioClip(int index)
+    {
+        if (index >= clipList.Count) return null;
+
+        return clipList[index];
+
+
     }
     #endregion
 

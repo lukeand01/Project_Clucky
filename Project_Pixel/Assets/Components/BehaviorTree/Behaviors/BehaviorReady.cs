@@ -11,6 +11,8 @@ public class BehaviorReady : Node
     float total;
     float current;
 
+
+
     public BehaviorReady(EnemyBase enemy, float total)
     {
         this.enemy = enemy;

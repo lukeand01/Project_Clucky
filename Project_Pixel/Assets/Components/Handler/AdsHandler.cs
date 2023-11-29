@@ -96,7 +96,7 @@ public class AdsHandler : MonoBehaviour, IUnityAdsInitializationListener, IUnity
 
     public void OnInitializationComplete()
     {
-        Debug.Log("unity ads initialization complete");
+        //Debug.Log("unity ads initialization complete");
     }
 
     public void OnInitializationFailed(UnityAdsInitializationError error, string message)

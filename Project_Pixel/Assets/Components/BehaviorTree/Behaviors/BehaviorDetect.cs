@@ -11,7 +11,8 @@ public class BehaviorDetect : Node
     bool careAboutDiff;
 
     LayerMask checkLayerMask;
-    public BehaviorDetect(EnemyBase enemy, bool careAboutDiff = true)
+
+    public BehaviorDetect(EnemyBase enemy,  bool careAboutDiff = true)
     {
         this.enemy = enemy;
         this.careAboutDiff = careAboutDiff;
@@ -36,7 +37,7 @@ public class BehaviorDetect : Node
         
         if (IsDetectRange(careAboutDiff))
         {
-
+            enemy.GetAudioClip(0);
             return NodeState.Success;
         }
         else

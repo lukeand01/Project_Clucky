@@ -35,6 +35,9 @@ public class PlayerCamera : MonoBehaviour
 
     bool isForceFollow;
     float currentForceFollow;
+
+    bool shouldCamNotFollowInAir;
+
     public void ForceFollow()
     {
         isForceFollow = true;
@@ -86,7 +89,7 @@ public class PlayerCamera : MonoBehaviour
 
 
 
-        if (!handler.IsGrounded() && total > current && !isForceFollow)
+        if (shouldCamNotFollowInAir && !handler.IsGrounded() && total > current && !isForceFollow)
         {
             //the camera does not follow.
             current += Time.deltaTime;

@@ -86,8 +86,17 @@ public class PlayerController : MonoBehaviour
         //if its only up then we look up.
 
         if (joystick == null) return;
-     
 
+        if (Input.GetKey(KeyCode.D))
+        {
+            handler.move.MoveHorizontal(1);
+            return;
+        }
+        if (Input.GetKey(KeyCode.A))
+        {
+            handler.move.MoveHorizontal(-1);
+            return;
+        }
 
         InputLookUp(IsUp());
         InputLookDown(IsDown());        

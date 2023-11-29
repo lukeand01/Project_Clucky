@@ -206,3 +206,30 @@
 //DONE
 //animation effect for clicking on buttons.
 //improve the tutorial. it needs to be consume quicker.
+
+
+
+
+//HOW TO MAKE THIS LOOK THE BEST IT CAN
+//every enemy makes a sound when moving or detecting the enemy
+//improve in the sound effect
+//improve the ui. the buttons do not look good.
+//overhaul every stage.
+//lighting
+//maybe make the game faster?
+//create a dash mechanic (but i have to change the stages to fit this mechanic.)
+//change the ui of the tutorial
+//something to do with the coins. create space for different skins
+//improve special effect. walkiung, jumping, falling, dying
+
+
+
+//TASK
+///the bat should be dodgeable by standing still. always a bit above the player´s head
+//a sound for when it detects the player and when it leaps from its place.
+///faling to he ground shakes the camera a bit
+//test the game being faster
+///the camera is always following
+//add the settings for controls
+//add a thing for choosing different skin for your char. it cost a price.
+//
