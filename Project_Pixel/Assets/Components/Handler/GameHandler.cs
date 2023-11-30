@@ -25,6 +25,9 @@ public class GameHandler : MonoBehaviour
     [Separator("TEMPLATES")]
     public Egg eggTemplate;
 
+    [Separator("CHARACTERS")]
+    [SerializeField]List<CharacterData> characterList = new();
+
     [ContextMenu("DELETE SAVE")]
     public void DeleteSave()
     {
@@ -51,6 +54,24 @@ public class GameHandler : MonoBehaviour
     {
         if (DEBUGCHECKSAVE) CheckSave();
         HandleLoad();
+        StartCharacterUI();
+    }
+
+    void LoadCharacterData(SaveClass save)
+    {
+        //use the save data to get things working here.
+
+        foreach (var item in save.ownedCharacterList)
+        {
+            characterList[item].isOwned = true;
+        }
+
+    }
+    void StartCharacterUI()
+    {
+        if (UIHolder.instance == null) return;
+        if(UIHolder.instance.character == null) return;
+        UIHolder.instance.character.StartUI(characterList);
     }
 
     [SerializeField] bool DEBUGCHECKSAVE;
@@ -94,7 +115,7 @@ public class GameHandler : MonoBehaviour
 
         PlayerHandler.instance.ReceiveSaveData(save);
         stageHandler.ReceiveSaveData(save);
-
+        LoadCharacterData(save);
         
     }
 

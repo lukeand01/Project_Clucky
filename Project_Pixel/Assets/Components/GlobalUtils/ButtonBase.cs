@@ -4,9 +4,13 @@ using UnityEngine;
 using System;
 using UnityEngine.EventSystems;
 using MyBox;
+using TMPro;
 
 public class ButtonBase : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerDownHandler, IPointerExitHandler, IPointerMoveHandler, IPointerUpHandler
 {
+
+    [Separator("Text")]
+    [SerializeField] TextMeshProUGUI text;
 
     [Separator("GRAPHIC")]
     [SerializeField] GameObject mouseHover;
@@ -48,6 +52,14 @@ public class ButtonBase : MonoBehaviour, IPointerClickHandler, IPointerEnterHand
     {
         mouseClick.SetActive(choice);
     }
+
+    public void EdiText(string newStringValue)
+    {
+        if (text != null) text.text = newStringValue;
+        else Debug.Log("tried to change text from button " + gameObject.name + " but failed");
+    }
+
+
     private void Update()
     {
         if (clickTimerCurrent <= 0) return;

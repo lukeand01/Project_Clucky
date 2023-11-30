@@ -53,11 +53,22 @@ public class PlayerHandler : MonoBehaviour
         PlayerGold += coin;
         GameHandler.instance.observer.OnMMUpdateGold(PlayerGold);
     }
+    public void RemoveCoin(int coin)
+    {
+        PlayerGold -= coin;
+        PlayerGold = Mathf.Clamp(PlayerGold, 0, 1000000);
+        GameHandler.instance.observer.OnMMUpdateGold(PlayerGold);
+    }
 
     public void SetCoin(int coin)
     {
         PlayerGold = coin;
         GameHandler.instance.observer.OnMMUpdateGold(PlayerGold);
+    }
+
+    public bool HasCoin(int value)
+    {
+        return PlayerGold >= value;
     }
 
     public void UpdateMMUI()

@@ -23,6 +23,8 @@ public class SaveClass
     public int playerGold;
 
     public List<StageSaveClass> stageSaveList = new();
+    public List<int> ownedCharacterList = new();    
+
 
     //when i start the game i want to save all the saves
 
@@ -57,6 +59,24 @@ public class SaveClass
 
     }
 
+    public void SaveNewCharacter(int id)
+    {
+        if (!HasCharacter(id))
+        {
+            ownedCharacterList.Add(id);
+        }
+        
+    }
+
+    bool HasCharacter(int id)
+    {
+        foreach (var item in ownedCharacterList)
+        {
+            if (item == id) return true; 
+        }
+
+        return false;
+    }
 }
 
 [System.Serializable]

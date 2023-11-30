@@ -12,6 +12,7 @@ public class UIHolder : MonoBehaviour
     public PlayerGUI player;
     public TutorialUI tutorial;
     public SettingsUI settings;
+    public CharacterUI character;
 
     private void Awake()
     {

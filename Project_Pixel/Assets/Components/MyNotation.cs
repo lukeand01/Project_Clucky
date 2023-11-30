@@ -217,19 +217,26 @@
 //overhaul every stage.
 //lighting
 //maybe make the game faster?
-//create a dash mechanic (but i have to change the stages to fit this mechanic.)
+//create a invicibility mechanic (but i have to change the stages to fit this mechanic.)
 //change the ui of the tutorial
 //something to do with the coins. create space for different skins
 //improve special effect. walkiung, jumping, falling, dying
-
+//what to add in the settings?
+//finish the ad system
 
 
 //TASK
 ///the bat should be dodgeable by standing still. always a bit above the player´s head
-//a sound for when it detects the player and when it leaps from its place.
 ///faling to he ground shakes the camera a bit
 //test the game being faster
 ///the camera is always following
-//add the settings for controls
+
+
+//TASK
 //add a thing for choosing different skin for your char. it cost a price.
-//
+//add the settings for controls
+//problem with screen size
+//checking pig and adding sound to the pig.
+//checking chamelleon and adding sound 
+//checking bee and adding sound
+//checking spike and adding sound.
