@@ -23,6 +23,7 @@ public class EnemyPig : EnemyBase
         {
             new BehaviorPatrol(this, patrolDistance, 0),
             new BehaviorDetect(this),
+            new BehaviorLineOfSight(this, 10),
             new BehaviorReady(this, waitToCharge),
             new BehaviorCharge(this, chargeDistance, chargeSpeedModifier),
             new BehaviorWait(this)

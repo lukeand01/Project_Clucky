@@ -300,7 +300,8 @@ public class PlayerMove : MonoBehaviour
         cannotJump = true;
         handler.ControlGravity(baseGravity, "base");
         Jump(jumpForce);
-        GameHandler.instance.sound.CreateSFX(handler.jumpSFX);
+
+        if(handler.jumpSFX != null && GameHandler.instance != null) GameHandler.instance.sound.CreateSFX(handler.jumpSFX);
         //spawn the thing by the base.
         if (isGrounded) SpawnPSJump();
 

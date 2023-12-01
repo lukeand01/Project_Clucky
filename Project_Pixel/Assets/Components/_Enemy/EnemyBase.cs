@@ -143,13 +143,13 @@ public class EnemyBase : Tree, IDamageable
     {
         rb.velocity = Vector2.zero;
     }
-   
 
 
+    public int currentDir { get; private set; }
     public void MoveHorizontal(int dir, float speedModifier = 1)
     {
         rb.velocity = new Vector2(dir * moveSpeed * speedModifier, rb.velocity.y);
-       
+        currentDir = dir;
 
         RotateSprite(dir);
     }
@@ -262,15 +262,14 @@ public class EnemyBase : Tree, IDamageable
     #region UTILS
     public bool IsWall(int dir, float distance)
     {
-
-        bool check = Physics2D.Raycast(transform.position, Vector2.right * dir, distance, LayerMask.GetMask("Ground"));
+        bool check = Physics2D.CircleCast(transform.position,0.5f,  Vector2.right * dir, distance, LayerMask.GetMask("Ground"));
 
         return check;
     }
 
     public bool IsLedge(int dir, float distance)
     {
-        bool check = Physics2D.Raycast(transform.position + (new Vector3(1.5f,0,0) * dir), Vector3.down, distance, LayerMask.GetMask("Ground"));
+        bool check = Physics2D.Raycast(transform.position + (new Vector3(1f,0,0) * dir), Vector3.down, distance, LayerMask.GetMask("Ground"));
 
 
         return !check;

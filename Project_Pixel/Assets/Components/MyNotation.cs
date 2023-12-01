@@ -240,3 +240,11 @@
 //checking chamelleon and adding sound 
 //checking bee and adding sound
 //checking spike and adding sound.
+
+
+//PIG
+//it needs sound
+//check for bugs
+
+///playtest 1: it fell fromr the plataform. it failed to patrol correctly.
+///playtest 2: it is ignoring the patrol distnace. always the samee distance.

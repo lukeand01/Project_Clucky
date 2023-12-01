@@ -41,6 +41,8 @@ public class LocalHandler : MonoBehaviour
         //steps
         //when the game first loads we check
 
+        if (stageData == null) return;
+
         survival = GetComponent<SurvivalHandler>();
         if (survival != null) survival.StartSurvival();
 
@@ -51,6 +53,8 @@ public class LocalHandler : MonoBehaviour
 
     void RemoveCoinsBasedInSave()
     {
+        if (stageData == null) return;
+
         GameObject[] coinInScene = GameObject.FindGameObjectsWithTag("Coin");
 
 

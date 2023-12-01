@@ -27,7 +27,7 @@ public class BehaviorPatrol : Node
         this.patrolDistance = patrolDistance;
         this.patrolWaitTime = patrolWaitTime;
 
-        total = 0.8f;
+        total = 0.2f;
     }
 
     public override NodeState Evaluate()
@@ -49,11 +49,17 @@ public class BehaviorPatrol : Node
             current -= Time.deltaTime;
         }
 
-        
-
-        if (enemy.IsWall(currentDir, 0.55f) && current <= 0 || enemy.IsLedge(currentDir, 0.5f) && current <= 0)
+        if (enemy.IsWall(currentDir, 0.3f)) //this is just for testing
+        {
+            
+        }
+        if (enemy.IsLedge(currentDir, 1.5f))//this is just for testing
         {
 
+        }
+
+        if (enemy.IsWall(currentDir, 0.3f) && current <= 0 || enemy.IsLedge(currentDir, 1.5f) && current <= 0)
+        {
             alreadyChangeSide = true;
             currentDir *= -1;
             current = total;
@@ -61,7 +67,7 @@ public class BehaviorPatrol : Node
 
         if (Vector3.Distance(enemy.transform.position, enemy.originalPos) > patrolDistance && patrolDistance > 0 && !alreadyChangeSide && current <= 0)
         {
-
+            Debug.Log("too far");
             currentDir *= -1;
             current = total;
         }

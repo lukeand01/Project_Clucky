@@ -31,7 +31,7 @@ public class BehaviorDetect : Node
     //it needs to shoot a raycast when is close enough.
 
 
-
+    //in sight
     public override NodeState Evaluate()
     {
         
