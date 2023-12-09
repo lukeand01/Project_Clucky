@@ -22,6 +22,8 @@ public class BehaviorReady : Node
 
     public override NodeState Evaluate()
     {
+        //turn it off.
+        enemy.ControlAudioSource(false);
         enemy.MoveHorizontal(0);
         if (total > current)
         {

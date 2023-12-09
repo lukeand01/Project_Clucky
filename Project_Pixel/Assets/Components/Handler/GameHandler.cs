@@ -85,7 +85,6 @@ public class GameHandler : MonoBehaviour
         }
         else
         {
-            UnityEngine.Debug.Log("FOUND NO SAVE");
             stageHandler.ResetStage();
         }
     }

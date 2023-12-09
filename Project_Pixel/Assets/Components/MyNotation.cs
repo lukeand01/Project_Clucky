@@ -216,13 +216,13 @@
 //improve the ui. the buttons do not look good.
 //overhaul every stage.
 //lighting
-//maybe make the game faster?
-//create a invicibility mechanic (but i have to change the stages to fit this mechanic.)
+//maybe make the game faster.
 //change the ui of the tutorial
 //something to do with the coins. create space for different skins
 //improve special effect. walkiung, jumping, falling, dying
 //what to add in the settings?
 //finish the ad system
+//double jump makes a cloud special effect.
 
 
 //TASK
@@ -234,12 +234,24 @@
 
 //TASK
 //add a thing for choosing different skin for your char. it cost a price.
-//add the settings for controls
-//problem with screen size
+//add the settings for controls. how do i do this one?
 //checking pig and adding sound to the pig.
 //checking chamelleon and adding sound 
 //checking bee and adding sound
 //checking spike and adding sound.
+
+
+//TASK
+//improve especial effects 
+//overhaul stages
+
+//TASK
+//light system
+//improve graphic where i can
+
+//TASK
+//change all the ui and create ccool effects for them. and sound as well.
+//
 
 
 //PIG
@@ -248,3 +260,42 @@
 
 ///playtest 1: it fell fromr the plataform. it failed to patrol correctly.
 ///playtest 2: it is ignoring the patrol distnace. always the samee distance.
+///playtest 3:  charging behavior seems fine 
+///playtest 4: what do i want from this character?
+///playtest 5: after charging its not returning to its original form. it should that once it stops and doesnt see the player; also the sound is all bugged.
+
+//CHAMELLEON
+//it needs sound
+//check for bugs 
+
+//playtest 1:
+
+
+
+//STAGE 1
+//what can i improve? 
+
+
+
+//TASK
+//i will improve especial effects and add them to the enemies.
+
+
+//SOUND REQUIREMENT
+//pig - walking, spotted, ccharging
+//bat - spotted and flying
+//bee - spotted, and every shot
+//chamelleon - walking and attacking
+
+//TASKS
+///stage 2 - has empty space between sprites.
+///change button ui
+///add sound to the button
+///add an animation effect
+///improve the selected effect.
+///also wehn the champ appear it shoudnt show the camera beionmg dragged.
+///cchange the text font
+//check and improve two stages.
+//make main menu transitions better
+//all stuff constnatly move up and down in long spaces.
+//turn the fade screen for scene transition into something cool=

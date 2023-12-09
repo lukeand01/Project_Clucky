@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class PlayerCamera : MonoBehaviour
@@ -139,8 +140,19 @@ public class PlayerCamera : MonoBehaviour
 
     public void ForceCameraIntoTransform(Transform transform)
     {
+        if(cam == null)
+        {
+            cam = Camera.main;
+        }
+        Debug.Log("this was called");
         cam.transform.position = transform.position;
     }
+
+    public bool IsCameraCentralized()
+    {
+        return cam.transform.position == transform.position;
+    }
+
 }
 
 

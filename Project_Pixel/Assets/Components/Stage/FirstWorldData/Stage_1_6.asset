@@ -15,7 +15,7 @@ MonoBehaviour:
   worldIndex: 0
   stageIndex: 5
   stageID: 6
-  stageName: Sixth Stage
+  stageName: 6
   stageSprite: {fileID: 21300000, guid: a562c3f91c0ac684696e45dec19914e4, type: 3}
   stageDescription: This is the Sixth stage
   howManyCoinInScene: 5

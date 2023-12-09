@@ -7,7 +7,7 @@ public class SoundHandler : MonoBehaviour
 {
 
     AudioSource BGMSource;
-
+    [SerializeField] bool PLEASENOBGM;
     public float currentBGMVolume { get; private set; }
     public float currentSFXVolume { get; private set; }
 
@@ -19,11 +19,18 @@ public class SoundHandler : MonoBehaviour
 
         BGMSource.loop = true;
 
-        currentBGMVolume = 0.7f;
+        currentBGMVolume = 0.15f;
         currentSFXVolume = 0.8f;
+
+        if (PLEASENOBGM)
+        {
+            currentBGMVolume = 0;
+
+        }
 
         BGMSource.volume = currentBGMVolume;
 
+        
     }
 
 
@@ -53,7 +60,7 @@ public class SoundHandler : MonoBehaviour
         newObject.transform.parent = sfcContainer.transform;
         newObject.AddComponent<DestroySelf>().SetUp(clip.length + 0.1f);
         AudioSource audio = newObject.AddComponent<AudioSource>();
-        audio.volume = currentBGMVolume;
+        audio.volume = currentSFXVolume;
         audio.clip = clip;
         audio.Play();
     }

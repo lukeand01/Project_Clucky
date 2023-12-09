@@ -25,6 +25,8 @@ public class PlayerResource : MonoBehaviour, IDamageable
 
     public void TakeDamage(float damage)
     {
+
+        Debug.Log("took damage");
         if (handler.DEBUGisImmune) return;
         if (IsImmune) return;
         GameHandler.instance.LoseGame();

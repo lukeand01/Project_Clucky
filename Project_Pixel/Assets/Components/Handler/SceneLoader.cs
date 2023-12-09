@@ -51,7 +51,7 @@ public class SceneLoader : MonoBehaviour
         //also everytime is a new phase.
         GameHandler handler = GameHandler.instance;
 
-        if(scene >= handler.stageHandler.stageCurrentProgress)
+        if(scene >= handler.stageHandler.stageCurrentProgress && !handler.ad.debugDontSeeAds)
         {
             Debug.Log("checked dthis instead");
             AdsHandler adHandler = GameHandler.instance.ad;
@@ -125,7 +125,7 @@ public class SceneLoader : MonoBehaviour
 
            
        yield return new WaitForSeconds(0.05f);
-        
+
 
        if(scene != 0)
         {
@@ -134,7 +134,12 @@ public class SceneLoader : MonoBehaviour
                 yield return new WaitForSeconds(0.01f);
             }
             LocalHandler.instance.InitScene();
+
+
+            bool isCameraInitialized = PlayerHandler.instance.cam.IsCameraCentralized();
+
             
+
         }
         
 
@@ -154,10 +159,12 @@ public class SceneLoader : MonoBehaviour
            ButtonInputHandler.instance.ControlVisibilityOnInputs(scene != 0);        
         }
 
-        
+        yield return new WaitForSeconds(1);
+
         //black screen decrease
         while (blackScreen.color.a > 0)
         {
+
             blackScreen.color -= new Color(0, 0, 0, 0.035f);
             yield return new WaitForSeconds(0.001f);
         }

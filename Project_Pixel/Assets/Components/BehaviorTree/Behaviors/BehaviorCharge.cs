@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class BehaviorCharge : Node
 {
@@ -12,13 +14,15 @@ public class BehaviorCharge : Node
     bool IsInit;
     int dir;
     float chargeSpeedModifier;
-
+    LayerMask layer;
 
     public BehaviorCharge(EnemyBase enemy, float chargeDistance, float chargeSpeedModifier)
     {
         this.enemy = enemy;
         this.chargeSpeedModifier = chargeSpeedModifier;
         total = chargeDistance;
+
+        layer |= (1 << 3);
     }
 
 
@@ -27,9 +31,19 @@ public class BehaviorCharge : Node
         //it kept moving forward till timeer is out or wall.
         //hitting player doese not stop it.
 
+        if (enemy.IsGrounded())
+        {
+            enemy.ControlAudioSourcePitch(1.4f);
+            enemy.ControlAudioSource(true);
+        }
+        else
+        {
+            enemy.ControlAudioSource(false);
+        }
 
         if (!IsInit)
         {
+            Debug.Log("it has init");
             dir = enemy.GetDirToPlayer();
             IsInit = true;
         }
@@ -37,19 +51,31 @@ public class BehaviorCharge : Node
         if(total > current)
         {
             //if enemy is hit then we stop.
-            current += Time.deltaTime;
+
+            if (IsAhead(10))
+            {
+                Debug.Log("is ahead");
+            }
+            else
+            {
+                current += Time.deltaTime;
+            }
+
 
             if (enemy.IsAttacked())
             {
                 current = 0;
+                IsInit = false;
                 return NodeState.Failure;
             }
 
             
+            
 
             if(enemy.IsWall(dir, 0.5f))
             {
-                Debug.Log("there is a wall ahead");
+                Debug.Log(" charge aganist wall");
+                IsInit = false;
                 return NodeState.Success;
             }
 
@@ -66,9 +92,10 @@ public class BehaviorCharge : Node
             enemy.SetOriginalPos();
             return NodeState.Success;
         }
-
-      
     }
 
-
+    bool IsAhead(float distance)
+    {
+        return Physics2D.Raycast(enemy.transform.position, Vector3.right * dir, distance, layer);
+    }
 }

@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Stage_1_20
   m_EditorClassIdentifier: 
   worldIndex: 0
-  stageIndex: 0
+  stageIndex: 19
   stageID: 20
-  stageName: Stage 20
+  stageName: 20
   stageSprite: {fileID: 21300000, guid: a562c3f91c0ac684696e45dec19914e4, type: 3}
   stageDescription: This is the stage thirteen
   howManyCoinInScene: 5

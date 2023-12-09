@@ -35,6 +35,7 @@ public class StageUI : MonoBehaviour
 
     int currentIndex;
 
+    [SerializeField] bool DEBUGBLOCKDESCRIPTION;
 
     private void Start()
     {
@@ -134,11 +135,18 @@ public class StageUI : MonoBehaviour
             playButton.gameObject.SetActive(false);
             return;
         }
+
+
         playButton.gameObject.SetActive(true);
-        descriptionHolder.SetActive(true);
-        descriptionNameText.text = stageData.stageName;
-        descriptionInfoText.text = stageData.stageDescription;
-        descriptionCoinText.text = "Coin: " + stageData.coinObtainedList.Count.ToString() + " / " + stageData.howManyCoinInScene.ToString();
+
+        if (!DEBUGBLOCKDESCRIPTION)
+        {
+            descriptionHolder.SetActive(true);
+            descriptionNameText.text = stageData.stageName;
+            descriptionInfoText.text = stageData.stageDescription;
+            descriptionCoinText.text = "Coin: " + stageData.coinObtainedList.Count.ToString() + " / " + stageData.howManyCoinInScene.ToString();
+        }
+
 
 
 

@@ -13,6 +13,8 @@ public class BehaviorLineOfSight : Node
     {
         this.enemy = enemy;
         this.distance = distance;
+
+        layer |= (1 << 3);
     }
 
     public override NodeState Evaluate()
@@ -20,10 +22,11 @@ public class BehaviorLineOfSight : Node
         int dir = enemy.currentDir; 
 
         bool spotted = Physics2D.Raycast(enemy.transform.position, Vector3.right * dir, distance, layer);
-        Debug.Log("spotteed " + spotted);
+
 
         if (spotted)
         {
+            enemy.DoAudioClip(0);
             return NodeState.Success;
         }
         else

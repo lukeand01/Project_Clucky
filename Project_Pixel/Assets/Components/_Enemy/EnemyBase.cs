@@ -41,10 +41,18 @@ public class EnemyBase : Tree, IDamageable
     [Separator("Audio Clips")]
     [SerializeField] protected List<AudioClip> clipList = new();
 
+    [Separator("ESPECIAL EFFECSTS")]
+    [SerializeField] ParticleSystem walkEffect;
+
+    [Separator("UTILS")]
     public bool shouldRotateJustGraphic;
 
+
+
+    AudioSource audioSource;
     private void Awake()
     {
+        audioSource = GetComponent<AudioSource>();
         currentHealth = initialHealth;
         SetUpComponents();
     }
@@ -53,6 +61,14 @@ public class EnemyBase : Tree, IDamageable
     {
         SetOriginalPos();
         SetUpBehavior();
+    }
+
+    private void FixedUpdate()
+    {
+        if(walkEffect != null)
+        {
+            walkEffect.gameObject.SetActive(IsAnimationRunning(ANIMATION_WALK));
+        }
     }
 
     public void SetOriginalPos()
@@ -210,9 +226,23 @@ public class EnemyBase : Tree, IDamageable
     }
     public void WalkAnimation()
     {
-        if (IsAttacked()) return;
-        if (IsAnimationRunning(ANIMATION_READY)) return;
-        if (IsAttacking()) return;
+
+        if (IsAttacked())
+        {
+            Debug.Log("0");
+            return;
+        }
+        if (IsAnimationRunning(ANIMATION_READY))
+        {
+
+
+        }
+        if (IsAttacking())
+        {
+
+            
+        }
+        //if playing walking animation active the thing if not desactivate
 
         PlayAnimation(ANIMATION_WALK);
     }
@@ -311,11 +341,35 @@ public class EnemyBase : Tree, IDamageable
         if (index >= clipList.Count) return null;
 
         return clipList[index];
-
-
     }
+
+    public bool DoAudioClip(int index)
+    {
+        if (index >= clipList.Count) return false;
+        if (clipList[index] == null) return false;  
+        if(GameHandler.instance == null) return false;
+        if(GameHandler.instance.sound == null) return false;
+
+        GameHandler.instance.sound.CreateSFX(clipList[index]);
+
+        return true;
+    }
+
+
     #endregion
 
+
+    public void ControlAudioSource(bool choice)
+    {
+        
+
+        if(audioSource != null) audioSource.enabled = choice;
+    }
+
+    public void ControlAudioSourcePitch(float pitch = 1)
+    {
+        if (audioSource != null) audioSource.pitch = pitch;
+    }
 
     public virtual void ShootProjectil()
     {

@@ -43,8 +43,20 @@ public class BehaviorPatrol : Node
         alreadyChangeSide = false;
         enemy.MoveHorizontal(currentDir);
         enemy.WalkAnimation();
+        //turn it on
+        if(enemy.IsGrounded()) 
+        {
+            enemy.ControlAudioSourcePitch();
+            enemy.ControlAudioSource(true);
+        }
+        else
+        {
+            enemy.ControlAudioSource(false);
+        }
 
-        if(current > 0)
+        
+
+        if (current > 0)
         {
             current -= Time.deltaTime;
         }

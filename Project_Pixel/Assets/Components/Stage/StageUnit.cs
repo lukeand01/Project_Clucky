@@ -9,15 +9,21 @@ using UnityEngine.UI;
 public class StageUnit : ButtonBase
 {
     [Separator("STAGE")]
-    [SerializeField] Image icon;
     [SerializeField] TextMeshProUGUI nameText;
     [SerializeField] TextMeshProUGUI coinText;
     [SerializeField] GameObject blocked;
-    [SerializeField] GameObject selected;
+
 
     StageUI handler;
     StageData data;
-    
+
+    GameObject holder;
+    [SerializeField] GameObject depthImage;
+    [SerializeField] GameObject selected; 
+    Vector3 originalPos;
+    Vector3 selectedPos;
+
+
     public void SetUp(StageData data, StageUI handler, int currentStage)
     {
         this.data = data;
@@ -31,6 +37,13 @@ public class StageUnit : ButtonBase
         {
             blocked.SetActive(false);
         }
+
+
+        holder = transform.GetChild(1).gameObject;
+
+        originalPos = holder.transform.localPosition;
+        selectedPos = originalPos + new Vector3(0, -3, 0);
+
     }
 
 
@@ -38,18 +51,32 @@ public class StageUnit : ButtonBase
     
     public void Select(bool choice)
     {
+        depthImage.SetActive(!choice);
         selected.SetActive(choice);
+        if(choice)
+        {
+            holder.transform.localPosition = selectedPos;
+        }
+        else
+        {
+            holder.transform.localPosition = originalPos;
+        }
+
+
     }
 
 
     public override void OnPointerClick(PointerEventData eventData)
     {
         //ordeer the thing
-        if (blocked.activeInHierarchy) return;
-
-      
+        if (blocked.activeInHierarchy) return;     
         handler.SelectStage(data);
         handler.SelectStageUnit(this);
     }
 
 }
+
+//how to improve this
+//efect when selecting
+//sound as well
+//

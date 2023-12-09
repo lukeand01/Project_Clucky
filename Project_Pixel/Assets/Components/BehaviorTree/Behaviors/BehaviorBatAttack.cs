@@ -60,6 +60,7 @@ public class BehaviorBatAttack : Node
             enemy.ControlRBBodyType(RigidbodyType2D.Kinematic);
             enemy.CompleteStop();
             dir = GetDir();
+            enemy.DoAudioClip(1);
             isInit = true;
         }
 

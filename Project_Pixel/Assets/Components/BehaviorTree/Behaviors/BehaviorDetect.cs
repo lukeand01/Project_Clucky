@@ -37,7 +37,9 @@ public class BehaviorDetect : Node
         
         if (IsDetectRange(careAboutDiff))
         {
-            enemy.GetAudioClip(0);
+            //
+
+
             return NodeState.Success;
         }
         else

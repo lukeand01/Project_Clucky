@@ -15,7 +15,7 @@ MonoBehaviour:
   worldIndex: 0
   stageIndex: 0
   stageID: 1
-  stageName: Stage Test
+  stageName: 1
   stageSprite: {fileID: 21300000, guid: 9f592085f1a91404daa73d2ec7d62dfa, type: 3}
   stageDescription: this is the first created stage. meant to show the game mechanics
     created at this point.

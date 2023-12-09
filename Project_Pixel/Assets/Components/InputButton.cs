@@ -14,7 +14,7 @@ public class InputButton : ButtonBase
     Vector2 activePos;
     Vector2 inactivePos;
     GameObject holder;
-
+    [SerializeField] Animator inputButtonAnimation;
     private void Awake()
     {
         holder = transform.GetChild(0).gameObject;
@@ -45,13 +45,25 @@ public class InputButton : ButtonBase
 
     private void FixedUpdate()
     {
+
         if(value == 1)
         {
             holder.transform.localPosition = Vector3.MoveTowards(holder.transform.localPosition, activePos, 15);
+
+            if(inputButtonAnimation != null)
+            {
+                inputButtonAnimation.enabled = true;
+            }
+
         }
         else
         {
             holder.transform.localPosition = Vector3.MoveTowards(holder.transform.localPosition, inactivePos, 15);
+
+            if (inputButtonAnimation != null)
+            {
+                inputButtonAnimation.enabled = false;
+            }
         }
     }
 

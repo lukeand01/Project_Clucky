@@ -14,11 +14,11 @@ public class AdsHandler : MonoBehaviour, IUnityAdsInitializationListener, IUnity
     [SerializeField] bool _testMode = true;
     private string _gameId;
     public bool isProcess { get; private set; }
-
+    public bool debugDontSeeAds;
 
     private void Awake()
     {
-        InitAds();
+       if(!debugDontSeeAds) InitAds();
     }
 
     void InitAds()

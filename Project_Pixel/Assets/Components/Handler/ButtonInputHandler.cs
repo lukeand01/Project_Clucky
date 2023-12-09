@@ -11,6 +11,7 @@ public class ButtonInputHandler : MonoBehaviour
 
     [Separator("ESSENTIAL COMPONENTS")]
     public InputButton jumpInputButton;
+    public InputButton powerInputButton;
     public InputButton leftInputButton;
     public InputButton rightInputButton;
     public InputButton downInputButton;

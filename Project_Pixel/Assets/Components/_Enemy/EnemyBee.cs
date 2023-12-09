@@ -5,10 +5,16 @@ using UnityEngine;
 
 public class EnemyBee : EnemyBase
 {
+    //how to improve the bee
+    //make it clear when it has spottted with yuo with graphic and sound
+    //make it clear when it shoots you.
+
+
     [Separator("BEE")]
     [SerializeField] BeeBullet beeProjectil;
     [SerializeField] Transform beeShootingPos;
     [SerializeField] float projectilSpeed;
+    [SerializeField] AudioClip beeShotClip;
 
     protected override void SetUpBehavior()
     {
@@ -38,6 +44,7 @@ public class EnemyBee : EnemyBase
     {
         BeeBullet bullet = Instantiate(beeProjectil, beeShootingPos.position, Quaternion.identity);     
         bullet.SetUp(GetDir(), projectilSpeed);
+        GameHandler.instance.sound.CreateSFX(beeShotClip);
     }
 
     Vector3 GetDir()

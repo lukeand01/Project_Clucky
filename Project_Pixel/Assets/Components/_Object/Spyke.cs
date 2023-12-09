@@ -53,16 +53,16 @@ public class Spyke : MonoBehaviour
             //shake.
 
             float current = 0;
-            float total = 0.6f;
+            float total = 0.8f;
 
             while (total > current)
             {
                 current += Time.deltaTime;
 
-                float offset = Random.Range(-0.015f, 0.015f);
+                float offset = Random.Range(-0.003f, 0.003f);
 
                 transform.position = new Vector3(transform.position.x + offset, transform.position.y, 0);
-                yield return new WaitForSeconds(Time.deltaTime);
+                yield return new WaitForSeconds(Time.deltaTime * 0.1f);
 
             }
 

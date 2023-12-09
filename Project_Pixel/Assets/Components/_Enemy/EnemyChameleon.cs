@@ -29,6 +29,7 @@ public class EnemyChameleon : EnemyBase
         {
             new BehaviorPatrol(this, patrolDistance, 0),
             new BehaviorDetect(this),
+            new BehaviorLineOfSight(this, 2.1f),
             new BehaviorAttack(this)
         });
     }
