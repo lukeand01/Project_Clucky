@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc3c61572dce29b4db5114c1283d7f4c, type: 3}
+  m_Name: Character_Base
+  m_EditorClassIdentifier: 
+  price: 50
+  graphicHolder: {fileID: 0}
+  icon: {fileID: -1023442087, guid: 83d9aa16087370042b4b5549f14f78e7, type: 3}
+  characterName: Chicken Boy
+  characterDescription: This is the base character of the game.
+  isOwned: 0
+  isSelected: 0
